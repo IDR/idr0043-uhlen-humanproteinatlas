@@ -1,5 +1,7 @@
 ---
-status: upload
+upload: in progress
+validation:
+publication:
 ---
 
 ## Tissue-based map of the human proteome

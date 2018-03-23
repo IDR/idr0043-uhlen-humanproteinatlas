@@ -1,7 +1,8 @@
 ---
-upload: [in progress](https://idr.openmicroscopy.org/about/submission/transfer) (2018-3-21)
-validation: 
-publication:
+status:
+  uploaded: 2018-03-21
+  validated: in progress
+  published:
 ---
 
 ## Tissue-based map of the human proteome

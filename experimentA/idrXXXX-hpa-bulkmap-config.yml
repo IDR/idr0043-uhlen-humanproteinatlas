@@ -20,7 +20,7 @@ defaults:
   omitempty: yes
 
 columns:
-    
+
   - name: Characteristics [Organism Part]
     clientname: Organism Part
     include: yes

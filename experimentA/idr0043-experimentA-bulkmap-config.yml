@@ -34,13 +34,13 @@ columns:
     clientname: Individual
     include: yes
   - name: Retrieval method
-    clientname: Retrieval method
+    clientname: Retrieval Method
     include: yes
   - name: Antibody dilution
-    clientname: Antibody dilution
+    clientname: Antibody Dilution
     include: yes
   - name: Human Protein Atlas version
-    clientname: Human Protein Atlas version
+    clientname: Human Protein Atlas Version
     include: yes
 
   ######################################################################
@@ -73,6 +73,7 @@ columns:
       namespace: openmicroscopy.org/mapr/antibody
       columns:
       - name: Antibody identifier
+        clientname: Antibody Identifier
         include: yes
         omitempty: no
       - name: Antibody identifier

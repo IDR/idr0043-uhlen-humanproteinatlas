@@ -28,7 +28,7 @@ columns:
     clientname: Sex
     include: yes
   - name: Characteristics [Age]
-    clientname: Genotype
+    clientname: Age
     include: yes
   - name: Characteristics [Individual]
     clientname: Individual

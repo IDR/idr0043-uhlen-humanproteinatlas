@@ -39,9 +39,6 @@ columns:
   - name: Antibody dilution
     clientname: Antibody Dilution
     include: yes
-  - name: Human Protein Atlas version
-    clientname: Human Protein Atlas Version
-    include: yes
 
   ######################################################################
   # mapr groups

@@ -33,7 +33,18 @@ columns:
   - name: Characteristics [Individual]
     clientname: Individual
     include: yes
-
+  - name: Retrieval method
+    clientname: Retrieval method
+    include: yes
+  - name: Antibody identifier
+    clientname: Antibody identifier
+    include: yes
+  - name: Antibody dilution
+    clientname: Antibody dilution
+    include: yes
+  - name: Human Protein Atlas version
+    clientname: Human Protein Atlas version
+    include: yes
 
   ######################################################################
   # mapr groups

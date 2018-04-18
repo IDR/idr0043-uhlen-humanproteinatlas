@@ -34,10 +34,6 @@ columns:
     clientname: Individual
     include: yes
 
-  - name: Channels
-    clientname: Channels
-    include: yes
-
 
   ######################################################################
   # mapr groups

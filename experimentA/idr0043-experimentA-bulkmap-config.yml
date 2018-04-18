@@ -36,9 +36,6 @@ columns:
   - name: Retrieval method
     clientname: Retrieval method
     include: yes
-  - name: Antibody identifier
-    clientname: Antibody identifier
-    include: yes
   - name: Antibody dilution
     clientname: Antibody dilution
     include: yes
@@ -71,3 +68,15 @@ columns:
         - name: Comment [Gene Symbol]
           clientname: Gene Symbol
           include: yes
+
+  - group:
+      namespace: openmicroscopy.org/mapr/antibody
+      columns:
+      - name: Antibody identifier
+        include: yes
+        omitempty: no
+      - name: Antibody identifier
+        clientname: Antibody Identifier URL
+        clientvalue: http://www.proteinatlas.org/search/{{ value|urlencode }}
+        include: yes
+

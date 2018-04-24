@@ -69,12 +69,11 @@ columns:
   - group:
       namespace: openmicroscopy.org/mapr/antibody
       columns:
-      - name: Antibody identifier
-        clientname: Antibody Identifier
-        include: yes
-        omitempty: no
-      - name: Antibody identifier
-        clientname: Antibody Identifier URL
-        clientvalue: http://www.proteinatlas.org/search/{{ value|urlencode }}
-        include: yes
-
+        - name: Antibody identifier
+          clientname: Antibody Identifier
+          include: yes
+          omitempty: no
+        - name: Antibody identifier
+          clientname: Antibody Identifier URL
+          clientvalue: http://www.proteinatlas.org/search/{{ value|urlencode }}
+          include: yes

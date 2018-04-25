@@ -17,12 +17,11 @@ public class ExtractColumns {
     public static void main(String[] args) throws Exception {
         
         // BEGIN Parameters
-        
-        String in = "/Users/dlindner/Repositories/idr0043-uhlen-humanproteinatlas/experimentA/idr0043-experimentA-assays.txt";
-        String out = "/Users/dlindner/Repositories/idr0043-uhlen-humanproteinatlas/experimentA/idr0043-experimentA-filePaths.tsv";
+        String in = "idr0043-uhlen-humanproteinatlas/experimentA/idr0043-experimentA-assays.txt";
+        String out = "idr0043-uhlen-humanproteinatlas/experimentA/idr0043-experimentA-filePaths.tsv";
 
         // The columns to extract
-        String[] columns = {"Assay Name", "Comment [Image File Path]"};
+        String[] columns = {"Dataset Name", "Comment [Image File Path]"};
         
         char splitSeparator = '\t';
         char joinSeparator = '\t';

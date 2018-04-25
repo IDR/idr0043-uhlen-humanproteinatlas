@@ -17,15 +17,14 @@ public class PrefixColumns {
         
         // BEGIN Parameters
         
-        String in = "/Users/dlindner/Repositories/idr0043-uhlen-humanproteinatlas/experimentA/idr0043-experimentA-filePaths_2.tsv";
-        String out = "/Users/dlindner/Repositories/idr0043-uhlen-humanproteinatlas/experimentA/idr0043-experimentA-filePaths_3.tsv";
+        String in = "idr0043-uhlen-humanproteinatlas/experimentA/idr0043-experimentA-filePaths.tsv";
+        String out = "idr0043-uhlen-humanproteinatlas/experimentA/idr0043-experimentA-filePaths_2.tsv";
         
         // prefix or postfix
         boolean prefix = true;
         
         // the text to use as prefix/postfix
         String concat = "Dataset:name:";
-        //String concat = "/uod/idr/filesets/idr0043-uhlen-humanproteinatlas/20180320/";
         
         // the column index
         int index = 0;

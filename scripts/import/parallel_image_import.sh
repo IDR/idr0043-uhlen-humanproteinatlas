@@ -23,9 +23,9 @@ nJobs=15
 ### END Settings
 
 import_image() {
-	input=`echo $1 | expand -t1`
-	# --> Check that the import options are the same as in the bulk.yml
-    $omero import -c --transfer "ln_s" --exclude "clientpath" --checksum-algorithm "File-Size-64" --logprefix "logs/" --output "yaml" --target $input
+  input=`echo $1 | expand -t1`
+  # --> Check that the import options are the same as in the bulk.yml
+  $omero import -c --transfer "ln_s" --exclude "clientpath" --checksum-algorithm "File-Size-64" --logprefix "logs/" --output "yaml" --target $input
 }
 export -f import_image
 

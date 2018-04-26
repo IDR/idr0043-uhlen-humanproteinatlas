@@ -65,7 +65,7 @@ columns:
         - name: Comment [Gene Symbol]
           clientname: Gene Symbol
           include: yes
-        - name: Analysis Gene Annotation Build
+        - name: Ensembl version
           clientname: Ensembl version
           include: yes
 

@@ -80,3 +80,6 @@ columns:
           clientname: Antibody Identifier URL
           clientvalue: http://www.proteinatlas.org/search/{{ value|urlencode }}
           include: yes
+        - name: Human Protein Atlas version
+          clientname: Human Protein Atlas version
+          include: yes

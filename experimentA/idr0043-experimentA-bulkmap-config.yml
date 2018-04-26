@@ -65,6 +65,9 @@ columns:
         - name: Comment [Gene Symbol]
           clientname: Gene Symbol
           include: yes
+        - name: Analysis Gene Annotation Build
+          clientname: Ensembl version
+          include: yes
 
   - group:
       namespace: openmicroscopy.org/mapr/antibody

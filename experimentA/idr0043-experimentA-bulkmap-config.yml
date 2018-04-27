@@ -28,16 +28,17 @@ columns:
     clientname: Sex
     include: yes
   - name: Characteristics [Age]
-    clientname: Genotype
+    clientname: Age
     include: yes
   - name: Characteristics [Individual]
     clientname: Individual
     include: yes
-
-  - name: Channels
-    clientname: Channels
+  - name: Retrieval method
+    clientname: Retrieval Method
     include: yes
-
+  - name: Antibody dilution
+    clientname: Antibody Dilution
+    include: yes
 
   ######################################################################
   # mapr groups
@@ -63,4 +64,22 @@ columns:
           include: yes
         - name: Comment [Gene Symbol]
           clientname: Gene Symbol
+          include: yes
+        - name: Ensembl version
+          clientname: Ensembl version
+          include: yes
+
+  - group:
+      namespace: openmicroscopy.org/mapr/antibody
+      columns:
+        - name: Antibody identifier
+          clientname: Antibody Identifier
+          include: yes
+          omitempty: no
+        - name: Antibody identifier
+          clientname: Antibody Identifier URL
+          clientvalue: http://www.proteinatlas.org/search/{{ value|urlencode }}
+          include: yes
+        - name: Human Protein Atlas version
+          clientname: Human Protein Atlas version
           include: yes

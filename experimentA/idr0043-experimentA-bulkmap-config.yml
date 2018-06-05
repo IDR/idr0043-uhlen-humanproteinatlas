@@ -39,6 +39,9 @@ columns:
   - name: Antibody dilution
     clientname: Antibody Dilution
     include: yes
+  - name: Term Source 2 Accession
+    clientname: SNOMED Identifier
+    include: yes
 
   ######################################################################
   # mapr groups
@@ -54,19 +57,250 @@ columns:
   - group:
       namespace: openmicroscopy.org/mapr/gene
       columns:
-        - name: Comment [Gene Identifier]
+        - name: Analysis Gene Annotation Build
+          clientname: Ensembl version
+          include: yes
+
+        - name: Comment [Gene Identifier] 1
           clientname: Gene Identifier
           include: "yes"
-        - name: Comment [Gene Identifier]
+        - name: Comment [Gene Identifier] 1
           clientname: Gene Identifier URL
-          clientvalue: >
-                http://www.ensembl.org/id/{{ value|urlencode }}
+          clientvalue: http://www.ensembl.org/id/{{ value|urlencode }}
           include: yes
-        - name: Comment [Gene Symbol]
+        - name: Comment [Gene Symbol] 1
           clientname: Gene Symbol
           include: yes
-        - name: Ensembl version
-          clientname: Ensembl version
+
+        - name: Comment [Gene Identifier] 2
+          clientname: Gene Identifier
+          include: "yes"
+        - name: Comment [Gene Identifier] 2
+          clientname: Gene Identifier URL
+          clientvalue: http://www.ensembl.org/id/{{ value|urlencode }}
+          include: yes
+        - name: Comment [Gene Symbol] 2
+          clientname: Gene Symbol
+          include: yes
+
+        - name: Comment [Gene Identifier] 3
+          clientname: Gene Identifier
+          include: "yes"
+        - name: Comment [Gene Identifier] 3
+          clientname: Gene Identifier URL
+          clientvalue: http://www.ensembl.org/id/{{ value|urlencode }}
+          include: yes
+        - name: Comment [Gene Symbol] 3
+          clientname: Gene Symbol
+          include: yes
+
+        - name: Comment [Gene Identifier] 4
+          clientname: Gene Identifier
+          include: "yes"
+        - name: Comment [Gene Identifier] 4
+          clientname: Gene Identifier URL
+          clientvalue: http://www.ensembl.org/id/{{ value|urlencode }}
+          include: yes
+        - name: Comment [Gene Symbol] 4
+          clientname: Gene Symbol
+          include: yes
+
+        - name: Comment [Gene Identifier] 5
+          clientname: Gene Identifier
+          include: "yes"
+        - name: Comment [Gene Identifier] 5
+          clientname: Gene Identifier URL
+          clientvalue: http://www.ensembl.org/id/{{ value|urlencode }}
+          include: yes
+        - name: Comment [Gene Symbol] 5
+          clientname: Gene Symbol
+          include: yes
+      
+        - name: Comment [Gene Identifier] 6
+          clientname: Gene Identifier
+          include: "yes"
+        - name: Comment [Gene Identifier] 6
+          clientname: Gene Identifier URL
+          clientvalue: http://www.ensembl.org/id/{{ value|urlencode }}
+          include: yes
+        - name: Comment [Gene Symbol] 6
+          clientname: Gene Symbol
+          include: yes
+
+        - name: Comment [Gene Identifier] 7
+          clientname: Gene Identifier
+          include: "yes"
+        - name: Comment [Gene Identifier] 7
+          clientname: Gene Identifier URL
+          clientvalue: http://www.ensembl.org/id/{{ value|urlencode }}
+          include: yes
+        - name: Comment [Gene Symbol] 7
+          clientname: Gene Symbol
+          include: yes
+
+        - name: Comment [Gene Identifier] 8
+          clientname: Gene Identifier
+          include: "yes"
+        - name: Comment [Gene Identifier] 8
+          clientname: Gene Identifier URL
+          clientvalue: http://www.ensembl.org/id/{{ value|urlencode }}
+          include: yes
+        - name: Comment [Gene Symbol] 8
+          clientname: Gene Symbol
+          include: yes
+
+        - name: Comment [Gene Identifier] 9
+          clientname: Gene Identifier
+          include: "yes"
+        - name: Comment [Gene Identifier] 9
+          clientname: Gene Identifier URL
+          clientvalue: http://www.ensembl.org/id/{{ value|urlencode }}
+          include: yes
+        - name: Comment [Gene Symbol] 9
+          clientname: Gene Symbol
+          include: yes
+
+        - name: Comment [Gene Identifier] 10
+          clientname: Gene Identifier
+          include: "yes"
+        - name: Comment [Gene Identifier] 10
+          clientname: Gene Identifier URL
+          clientvalue: http://www.ensembl.org/id/{{ value|urlencode }}
+          include: yes
+        - name: Comment [Gene Symbol] 10
+          clientname: Gene Symbol
+          include: yes
+
+        - name: Comment [Gene Identifier] 11
+          clientname: Gene Identifier
+          include: "yes"
+        - name: Comment [Gene Identifier] 11
+          clientname: Gene Identifier URL
+          clientvalue: http://www.ensembl.org/id/{{ value|urlencode }}
+          include: yes
+        - name: Comment [Gene Symbol] 11
+          clientname: Gene Symbol
+          include: yes
+
+        - name: Comment [Gene Identifier] 12
+          clientname: Gene Identifier
+          include: "yes"
+        - name: Comment [Gene Identifier] 12
+          clientname: Gene Identifier URL
+          clientvalue: http://www.ensembl.org/id/{{ value|urlencode }}
+          include: yes
+        - name: Comment [Gene Symbol] 12
+          clientname: Gene Symbol
+          include: yes
+
+        - name: Comment [Gene Identifier] 13
+          clientname: Gene Identifier
+          include: "yes"
+        - name: Comment [Gene Identifier] 13
+          clientname: Gene Identifier URL
+          clientvalue: http://www.ensembl.org/id/{{ value|urlencode }}
+          include: yes
+        - name: Comment [Gene Symbol] 13
+          clientname: Gene Symbol
+          include: yes
+
+        - name: Comment [Gene Identifier] 14
+          clientname: Gene Identifier
+          include: "yes"
+        - name: Comment [Gene Identifier] 14
+          clientname: Gene Identifier URL
+          clientvalue: http://www.ensembl.org/id/{{ value|urlencode }}
+          include: yes
+        - name: Comment [Gene Symbol] 14
+          clientname: Gene Symbol
+          include: yes
+
+        - name: Comment [Gene Identifier] 15
+          clientname: Gene Identifier
+          include: "yes"
+        - name: Comment [Gene Identifier] 15
+          clientname: Gene Identifier URL
+          clientvalue: http://www.ensembl.org/id/{{ value|urlencode }}
+          include: yes
+        - name: Comment [Gene Symbol] 15
+          clientname: Gene Symbol
+          include: yes
+
+        - name: Comment [Gene Identifier] 16
+          clientname: Gene Identifier
+          include: "yes"
+        - name: Comment [Gene Identifier] 16
+          clientname: Gene Identifier URL
+          clientvalue: http://www.ensembl.org/id/{{ value|urlencode }}
+          include: yes
+        - name: Comment [Gene Symbol] 16
+          clientname: Gene Symbol
+          include: yes
+
+        - name: Comment [Gene Identifier] 17
+          clientname: Gene Identifier
+          include: "yes"
+        - name: Comment [Gene Identifier] 17
+          clientname: Gene Identifier URL
+          clientvalue: http://www.ensembl.org/id/{{ value|urlencode }}
+          include: yes
+        - name: Comment [Gene Symbol] 17
+          clientname: Gene Symbol
+          include: yes
+
+        - name: Comment [Gene Identifier] 18
+          clientname: Gene Identifier
+          include: "yes"
+        - name: Comment [Gene Identifier] 18
+          clientname: Gene Identifier URL
+          clientvalue: http://www.ensembl.org/id/{{ value|urlencode }}
+          include: yes
+        - name: Comment [Gene Symbol] 18
+          clientname: Gene Symbol
+          include: yes
+
+        - name: Comment [Gene Identifier] 19
+          clientname: Gene Identifier
+          include: "yes"
+        - name: Comment [Gene Identifier] 19
+          clientname: Gene Identifier URL
+          clientvalue: http://www.ensembl.org/id/{{ value|urlencode }}
+          include: yes
+        - name: Comment [Gene Symbol] 19
+          clientname: Gene Symbol
+          include: yes
+
+        - name: Comment [Gene Identifier] 20
+          clientname: Gene Identifier
+          include: "yes"
+        - name: Comment [Gene Identifier] 20
+          clientname: Gene Identifier URL
+          clientvalue: http://www.ensembl.org/id/{{ value|urlencode }}
+          include: yes
+        - name: Comment [Gene Symbol] 20
+          clientname: Gene Symbol
+          include: yes
+
+        - name: Comment [Gene Identifier] 21
+          clientname: Gene Identifier
+          include: "yes"
+        - name: Comment [Gene Identifier] 21
+          clientname: Gene Identifier URL
+          clientvalue: http://www.ensembl.org/id/{{ value|urlencode }}
+          include: yes
+        - name: Comment [Gene Symbol] 21
+          clientname: Gene Symbol
+          include: yes
+
+        - name: Comment [Gene Identifier] 22
+          clientname: Gene Identifier
+          include: "yes"
+        - name: Comment [Gene Identifier] 22
+          clientname: Gene Identifier URL
+          clientvalue: http://www.ensembl.org/id/{{ value|urlencode }}
+          include: yes
+        - name: Comment [Gene Symbol] 22
+          clientname: Gene Symbol
           include: yes
 
   - group:

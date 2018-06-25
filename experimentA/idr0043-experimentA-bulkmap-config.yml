@@ -115,7 +115,7 @@ columns:
         - name: Comment [Gene Symbol] 5
           clientname: Gene Symbol
           include: yes
-      
+
         - name: Comment [Gene Identifier] 6
           clientname: Gene Identifier
           include: "yes"
@@ -303,6 +303,39 @@ columns:
           clientname: Gene Symbol
           include: yes
 
+        - name: Comment [Gene Identifier] 23
+          clientname: Gene Identifier
+          include: "yes"
+        - name: Comment [Gene Identifier] 23
+          clientname: Gene Identifier URL
+          clientvalue: http://www.ensembl.org/id/{{ value|urlencode }}
+          include: yes
+        - name: Comment [Gene Symbol] 23
+          clientname: Gene Symbol
+          include: yes
+
+        - name: Comment [Gene Identifier] 24
+          clientname: Gene Identifier
+          include: "yes"
+        - name: Comment [Gene Identifier] 24
+          clientname: Gene Identifier URL
+          clientvalue: http://www.ensembl.org/id/{{ value|urlencode }}
+          include: yes
+        - name: Comment [Gene Symbol] 24
+          clientname: Gene Symbol
+          include: yes
+
+        - name: Comment [Gene Identifier] 25
+          clientname: Gene Identifier
+          include: "yes"
+        - name: Comment [Gene Identifier] 25
+          clientname: Gene Identifier URL
+          clientvalue: http://www.ensembl.org/id/{{ value|urlencode }}
+          include: yes
+        - name: Comment [Gene Symbol] 25
+          clientname: Gene Symbol
+          include: yes
+
   - group:
       namespace: openmicroscopy.org/mapr/antibody
       columns:
@@ -312,7 +345,7 @@ columns:
           omitempty: no
         - name: Antibody identifier
           clientname: Antibody Identifier URL
-          clientvalue: http://www.proteinatlas.org/search/{{ value|urlencode }}
+          clientvalue: http://v18.proteinatlas.org/search/{{ value|urlencode }}
           include: yes
         - name: Human Protein Atlas version
           clientname: Human Protein Atlas version

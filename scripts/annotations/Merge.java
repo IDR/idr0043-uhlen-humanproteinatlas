@@ -20,8 +20,8 @@
  */
 package annotations;
 
-import static annotations.CSVUtils.join;
-import static annotations.CSVUtils.split;
+import static annotations.BasicCSVUtils.join;
+import static annotations.BasicCSVUtils.split;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

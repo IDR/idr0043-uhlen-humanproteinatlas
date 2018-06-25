@@ -19,7 +19,7 @@ jobsresultdir=rslt
 export omero=/opt/omero/server/OMERO.server/bin/omero
 ### END Settings
 
-#$omero login
+$omero login
 
 ##  Preparation
 ###############

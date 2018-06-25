@@ -21,7 +21,7 @@
 
 package annotations;
 
-import org.apache.commons.text.StringTokenizer;
+import annotations.org.apache.commons.text.StringTokenizer;
 
 /**
  * Some basic split and join methods for handling CSV lines.

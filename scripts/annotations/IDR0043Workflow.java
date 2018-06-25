@@ -36,18 +36,18 @@ public class IDR0043Workflow {
         // ====================
         // Parameters
         
-        final String datasetName = "hpa_run_02";
+        final String datasetName = "hpa_run_01";
         final String path = "/uod/idr/filesets/idr0043-uhlen-humanproteinatlas/20180518-ftp";
         
-        final String assayFile = "idr0043-uhlen-humanproteinatlas/experimentA/hpa_run_02/idr0043-experimentA-assays.txt";
+        final String assayFile = "/Users/dlindner/test2/assays.txt";
         final String fileNameColumn = "Image File";
         final String filePathColumn = "Comment [Image File Path]";
         final String datasetNameColumn = "Dataset Name";
         final String geneSymColumn = "Comment [Gene Symbol]";
         final String geneIdColumn = "Comment [Gene Identifier]";
         
-        final String filePathsFile = "idr0043-uhlen-humanproteinatlas/experimentA/hpa_run_02/idr0043-experimentA-filePaths.tsv";
-        final String annotationFile = "idr0043-uhlen-humanproteinatlas/experimentA/hpa_run_02/idr0043-experimentA-annotation.csv";
+        final String filePathsFile = "/Users/dlindner/test2/filePaths.tsv";
+        final String annotationFile = "/Users/dlindner/test2/annotation.csv";
 
         // =====================
         
@@ -94,19 +94,19 @@ public class IDR0043Workflow {
         // Rename that column to "Image Name"
         annotationContent = renameColumn(annotationContent, 0, "Image Name", CSV);
         
-        // Add a "Dataset Name" column (first two columns must be "Dataset Name" and "Image Name")
-        annotationContent = addColumn(annotationContent, CSV, 0, datasetName, "Dataset Name");
-        
-        // There is already a "Dataset Name" column (antibody ID), rename it to "Original Dataset Name"
+        // There is already a "Dataset Name" column, rename it to "Original Dataset Name"
         index = getColumnIndex(annotationContent, datasetNameColumn, CSV);
         annotationContent = renameColumn(annotationContent, index, "Original Dataset Name", CSV);
         
+        // Add a "Dataset Name" column 'hpa_run_xx' as first column (first two columns must be "Dataset Name" and "Image Name")
+        annotationContent = addColumn(annotationContent, CSV, 0, datasetName, "Dataset Name");
+        
         // The gene id column can have multiple entries, split them into separate columns
-        index = getColumnIndex(annotationContent, geneIdColumn, ',');
+        index = getColumnIndex(annotationContent, geneIdColumn, CSV);
         annotationContent = splitColumn(annotationContent, index, CSV, ';');
         
         // Same for the gene symbol column
-        index = getColumnIndex(annotationContent, geneSymColumn, ',');
+        index = getColumnIndex(annotationContent, geneSymColumn, CSV);
         annotationContent = splitColumn(annotationContent, index, CSV, ';');
         
         // Finally save the annotion.csv file

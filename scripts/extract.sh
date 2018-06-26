@@ -9,12 +9,9 @@
 # files
 
 PREFIX=${PREFIX:-}
+N=${N:-10}
 
-# Verify checksums
-md5sum -c md5sum.txt
 #
-for file in $PREFIX*.tar; do
-    tar xvf ${file}
-    id="${file%.*}"
-    gunzip $id/*.gz
-done
+find $PREFIX*.tar > files.txt
+parallel -a files.txt --jobs 10 --joblog log --results results "cat md5sum.txt | grep ' {}' | md5sum -c && tar xvf {} && rm {} && gunzip {/.}/*.gz"
+rm files.txt

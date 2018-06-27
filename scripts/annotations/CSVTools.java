@@ -459,6 +459,75 @@ public class CSVTools {
     }
 
     /**
+     * Process (modify the content of) cells of a specific column. Also makes
+     * sure that there are no duplicate rows in the output.
+     * 
+     * @param input
+     *            The input
+     * @param colIndex
+     *            The column index
+     * @param sep
+     *            The separator
+     * @param processor
+     *            The processor
+     * @return The modified CSV string
+     */
+    public static String process(String input, int colIndex, char sep,
+            Processor processor) {
+        String[] lines = input.split("\n");
+        StringBuilder output = new StringBuilder();
+
+        // copy header
+        output.append(lines[0] + "\n");
+
+        HashSet<String> unique = new HashSet<String>();
+
+        for (int i = 1; i < lines.length; i++) {
+            String[] parts = split(lines[i], sep);
+            parts[colIndex] = processor.process(parts[colIndex]);
+            String line = join(parts, sep);
+            if (!unique.contains(line)) {
+                output.append(line + "\n");
+                unique.add(line);
+            }
+        }
+
+        return output.toString();
+    }
+
+    /**
+     * Remove rows which cells of a specific column match a specific
+     * filter.
+     * 
+     * @param input
+     *            The input
+     * @param colIndex
+     *            The column index
+     * @param sep
+     *            The separator
+     * @param filter
+     *            The filter
+     * @return The modified CSV string
+     */
+    public static String filter(String input, int colIndex, char sep,
+            Filter filter) {
+        String[] lines = input.split("\n");
+        StringBuilder output = new StringBuilder();
+
+        // copy header
+        output.append(lines[0] + "\n");
+
+        for (int i = 1; i < lines.length; i++) {
+            String[] parts = split(lines[i], sep);
+            if (!filter.filter(parts[colIndex])) {
+                output.append(lines[i] + "\n");
+            }
+        }
+
+        return output.toString();
+    }
+    
+    /**
      * Get the index of a column by its header name
      * 
      * @param input

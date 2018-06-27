@@ -39,14 +39,14 @@ public class IDR0043Workflow {
         final String datasetName = "hpa_run_01";
         final String path = "/uod/idr/filesets/idr0043-uhlen-humanproteinatlas/20180624-ftp";
         
-        final String assayFile = "/idr0043-uhlen-humanproteinatlas/experimentA/hpa_run_01/idr0043-experimentA-assays.txt";
+        final String assayFile = "/Users/dlindner/Repositories/idr0043-uhlen-humanproteinatlas/experimentA/hpa_run_01/idr0043-experimentA-assays.txt";
         final String fileNameColumn = "Image File";
         final String filePathColumn = "Comment [Image File Path]";
         final String datasetNameColumn = "Dataset Name";
         final String geneSymColumn = "Comment [Gene Symbol]";
         final String geneIdColumn = "Comment [Gene Identifier]";
         
-        final String filePathsFile = "/idr0043-uhlen-humanproteinatlas/experimentA/hpa_run_01/idr0043-experimentA-filePaths.tsv";
+        final String filePathsFile = "/Users/dlindner/Repositories/idr0043-uhlen-humanproteinatlas/experimentA/hpa_run_01/idr0043-experimentA-filePaths.tsv";
         final String annotationFile = "/idr0043-uhlen-humanproteinatlas/experimentA/hpa_run_01/idr0043-experimentA-annotation.csv";
 
         // =====================
@@ -62,19 +62,27 @@ public class IDR0043Workflow {
         
         // Extract the column with the image file paths
         int index = getColumnIndex(input, filePathColumn, TSV);
-        String filePapthsContent = extractColumns(input, new int[]{index}, TSV);
+        String filePathsContent = extractColumns(input, new int[]{index}, TSV);
+        
+        // Remove image file name (don't list each single image file, just point to the folders)
+        filePathsContent = process(filePathsContent, 0, TSV, new Processor() {
+            @Override
+            public String process(String input) {
+                return input.substring(0, input.lastIndexOf('/'));
+            }
+        });
         
         // Add a column with the dataset name
-        filePapthsContent = addColumn(filePapthsContent, TSV, 0, "Dataset:name:"+datasetName, "");
+        filePathsContent = addColumn(filePathsContent, TSV, 0, "Dataset:name:"+datasetName, "");
         
         // Prefix the (relative) image file paths with the /uod/idr/filesets/... path to get the absolute path
-        filePapthsContent = prefixColumn(filePapthsContent, 1, TSV, path+"/", null);
+        filePathsContent = prefixColumn(filePathsContent, 1, TSV, path+"/", null);
         
         // remove the header line
-        filePapthsContent = removeRow(filePapthsContent, 0);
+        filePathsContent = removeRow(filePathsContent, 0);
         
         // save the filePaths.tsv file
-        writeFile(filePathsFile, filePapthsContent);
+        writeFile(filePathsFile, filePathsContent);
         
         
         /**

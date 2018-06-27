@@ -81,7 +81,7 @@ import_image() {
 }
 export -f import_image
 
-parallel -a commands.txt --delay 1 --jobs $nJobs --results $jobsresultdir --joblog $jobslogfile import_image
+parallel -a commands.txt --delay 3 --jobs $nJobs --results $jobsresultdir --joblog $jobslogfile import_image
 
 rm commands.txt
 

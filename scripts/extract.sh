@@ -9,9 +9,11 @@
 # files
 
 PREFIX=${PREFIX:-}
-N=${N:-10}
 
-#
-find $PREFIX*.tar > files.txt
-parallel -a files.txt --jobs $N --joblog log --results results "cat md5sum.txt | grep ' {}' | md5sum -c && tar xvf {} && rm {} && gunzip {/.}/*.gz"
-rm files.txt
+for file in $PREFIX*.tar; do
+    echo "Extracting $file"
+    cat md5sum.txt | grep " $file" | md5sum -c
+    tar xvf ${file}
+    rm $file
+    gunzip ${file%.*}/*.gz
+done

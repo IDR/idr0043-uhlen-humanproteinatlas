@@ -47,7 +47,7 @@ public class IDR0043Workflow {
         final String geneIdColumn = "Comment [Gene Identifier]";
         
         final String filePathsFile = "/Users/dlindner/Repositories/idr0043-uhlen-humanproteinatlas/experimentA/hpa_run_01/idr0043-experimentA-filePaths.tsv";
-        final String annotationFile = "/idr0043-uhlen-humanproteinatlas/experimentA/hpa_run_01/idr0043-experimentA-annotation.csv";
+        final String annotationFile = "/Users/dlindner/Repositories/idr0043-uhlen-humanproteinatlas/experimentA/hpa_run_01/idr0043-experimentA-annotation.csv";
 
         // =====================
         
@@ -65,11 +65,8 @@ public class IDR0043Workflow {
         String filePathsContent = extractColumns(input, new int[]{index}, TSV);
         
         // Remove image file name (don't list each single image file, just point to the folders)
-        filePathsContent = process(filePathsContent, 0, TSV, new Processor() {
-            @Override
-            public String process(String input) {
-                return input.substring(0, input.lastIndexOf('/'));
-            }
+        filePathsContent = process(filePathsContent, 0, TSV, content -> {
+                return content.substring(0, content.lastIndexOf('/'));
         });
         
         // Add a column with the dataset name

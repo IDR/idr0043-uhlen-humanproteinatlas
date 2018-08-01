@@ -13,7 +13,7 @@
 
 ### BEGIN Settings
 bulkFile=../../experimentA/hpa_run_01/idr0043-experimentA-bulk.yml
-nJobs=10
+nJobs=8
 jobslogfile=log
 jobsresultdir=rslt
 export omero=/opt/omero/server/OMERO.server/bin/omero
@@ -81,7 +81,7 @@ import_image() {
 }
 export -f import_image
 
-parallel -a commands.txt --delay 3 --jobs $nJobs --results $jobsresultdir --joblog $jobslogfile import_image
+parallel -a commands.txt --delay 2 --jobs $nJobs --results $jobsresultdir --joblog $jobslogfile import_image
 
 rm commands.txt
 

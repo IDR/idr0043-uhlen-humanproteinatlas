@@ -3,6 +3,7 @@ continue: "true"
 transfer: "ln_s"
 exclude: "clientpath"
 checksum_algorithm: "File-Size-64"
+skip: "minmax"
 logprefix: "logs/"
 output: "yaml"
 # Default columns for the regular screens.

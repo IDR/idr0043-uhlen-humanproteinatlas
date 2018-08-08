@@ -39,6 +39,9 @@ columns:
   - name: Antibody dilution
     clientname: Antibody Dilution
     include: yes
+  - name: Term Source 2 Accession
+    clientname: SNOMED Identifier
+    include: yes
 
   ######################################################################
   # mapr groups
@@ -54,19 +57,96 @@ columns:
   - group:
       namespace: openmicroscopy.org/mapr/gene
       columns:
-        - name: Comment [Gene Identifier]
+        - name: Analysis Gene Annotation Build
+          clientname: Ensembl version
+          include: yes
+
+        - name: Comment [Gene Identifier] 1
           clientname: Gene Identifier
           include: "yes"
-        - name: Comment [Gene Identifier]
+        - name: Comment [Gene Identifier] 1
           clientname: Gene Identifier URL
-          clientvalue: >
-                http://www.ensembl.org/id/{{ value|urlencode }}
+          clientvalue: http://www.ensembl.org/id/{{ value|urlencode }}
           include: yes
-        - name: Comment [Gene Symbol]
+        - name: Comment [Gene Symbol] 1
           clientname: Gene Symbol
           include: yes
-        - name: Ensembl version
-          clientname: Ensembl version
+
+        - name: Comment [Gene Identifier] 2
+          clientname: Gene Identifier
+          include: "yes"
+        - name: Comment [Gene Identifier] 2
+          clientname: Gene Identifier URL
+          clientvalue: http://www.ensembl.org/id/{{ value|urlencode }}
+          include: yes
+        - name: Comment [Gene Symbol] 2
+          clientname: Gene Symbol
+          include: yes
+
+        - name: Comment [Gene Identifier] 3
+          clientname: Gene Identifier
+          include: "yes"
+        - name: Comment [Gene Identifier] 3
+          clientname: Gene Identifier URL
+          clientvalue: http://www.ensembl.org/id/{{ value|urlencode }}
+          include: yes
+        - name: Comment [Gene Symbol] 3
+          clientname: Gene Symbol
+          include: yes
+
+        - name: Comment [Gene Identifier] 4
+          clientname: Gene Identifier
+          include: "yes"
+        - name: Comment [Gene Identifier] 4
+          clientname: Gene Identifier URL
+          clientvalue: http://www.ensembl.org/id/{{ value|urlencode }}
+          include: yes
+        - name: Comment [Gene Symbol] 4
+          clientname: Gene Symbol
+          include: yes
+
+        - name: Comment [Gene Identifier] 5
+          clientname: Gene Identifier
+          include: "yes"
+        - name: Comment [Gene Identifier] 5
+          clientname: Gene Identifier URL
+          clientvalue: http://www.ensembl.org/id/{{ value|urlencode }}
+          include: yes
+        - name: Comment [Gene Symbol] 5
+          clientname: Gene Symbol
+          include: yes
+
+        - name: Comment [Gene Identifier] 6
+          clientname: Gene Identifier
+          include: "yes"
+        - name: Comment [Gene Identifier] 6
+          clientname: Gene Identifier URL
+          clientvalue: http://www.ensembl.org/id/{{ value|urlencode }}
+          include: yes
+        - name: Comment [Gene Symbol] 6
+          clientname: Gene Symbol
+          include: yes
+
+        - name: Comment [Gene Identifier] 7
+          clientname: Gene Identifier
+          include: "yes"
+        - name: Comment [Gene Identifier] 7
+          clientname: Gene Identifier URL
+          clientvalue: http://www.ensembl.org/id/{{ value|urlencode }}
+          include: yes
+        - name: Comment [Gene Symbol] 7
+          clientname: Gene Symbol
+          include: yes
+
+        - name: Comment [Gene Identifier] 8
+          clientname: Gene Identifier
+          include: "yes"
+        - name: Comment [Gene Identifier] 8
+          clientname: Gene Identifier URL
+          clientvalue: http://www.ensembl.org/id/{{ value|urlencode }}
+          include: yes
+        - name: Comment [Gene Symbol] 8
+          clientname: Gene Symbol
           include: yes
 
   - group:
@@ -78,7 +158,7 @@ columns:
           omitempty: no
         - name: Antibody identifier
           clientname: Antibody Identifier URL
-          clientvalue: http://www.proteinatlas.org/search/{{ value|urlencode }}
+          clientvalue: http://v18.proteinatlas.org/search/{{ value|urlencode }}
           include: yes
         - name: Human Protein Atlas version
           clientname: Human Protein Atlas version

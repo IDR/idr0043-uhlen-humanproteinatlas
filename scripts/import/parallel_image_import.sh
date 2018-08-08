@@ -12,8 +12,8 @@
 ###
 
 ### BEGIN Settings
-bulkFile=../../experimentA/idr0043-experimentA-bulk.yml
-nJobs=10
+bulkFile=../../experimentA/hpa_run_01/idr0043-experimentA-bulk.yml
+nJobs=8
 jobslogfile=log
 jobsresultdir=rslt
 export omero=/opt/omero/server/OMERO.server/bin/omero
@@ -28,9 +28,7 @@ $omero login
 expDir=`dirname $bulkFile`
 
 # Determine project directory and name
-projectDir=`realpath $expDir`
-projectDir=`dirname $projectDir`
-projectName=`basename $projectDir`/`basename $expDir`
+projectName=idr0043-uhlen-humanproteinatlas/experimentA 
 
 # Determine path to filePaths.tsv
 filePaths=$expDir/`grep "path:" $bulkFile | cut -d " " -f2 | tr -d "\""`
@@ -83,7 +81,7 @@ import_image() {
 }
 export -f import_image
 
-parallel -a commands.txt --jobs $nJobs --results $jobsresultdir --joblog $jobslogfile import_image
+parallel -a commands.txt --delay 2 --jobs $nJobs --results $jobsresultdir --joblog $jobslogfile import_image
 
 rm commands.txt
 

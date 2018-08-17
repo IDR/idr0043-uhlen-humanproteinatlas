@@ -18,7 +18,7 @@ count=0
 
 for d in `find [0-1]* -maxdepth 0 -type d`
 do
-        for f in `ls $d | grep .tif`
+        for f in `ls $d | grep -i .tif`
         do
                 tmp=`tiffinfo $d/$f`
                 if [ $? -ne 0 ]

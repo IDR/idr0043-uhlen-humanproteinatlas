@@ -1,3 +1,5 @@
+#!/bin/bash
+#
 # Runs through all directories with numercial directory name
 # and checks the image dimensions of the *.tif files. 
 # Prints out max width and height. Also reports broken tif files.

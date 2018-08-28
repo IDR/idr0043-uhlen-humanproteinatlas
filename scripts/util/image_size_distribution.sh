@@ -1,3 +1,5 @@
+#!/bin/bash
+#
 # Runs through all directories with numercial directory name
 # and checks the image dimensions of the *.tif files.
 #
@@ -16,7 +18,7 @@ declare -A sizes
 total=`find [0-9]* -maxdepth 0 -type d | wc -l`
 count=0
 
-for d in `find [0-1]* -maxdepth 0 -type d`
+for d in `find [0-9]* -maxdepth 0 -type d`
 do
         for f in `ls $d | grep -i .tif`
         do
@@ -42,13 +44,13 @@ do
         (>&2 echo "( Progress: $count / $total )")
 done
 
-echo "Image size (10^6 pixels),Image dimensions,Number of images"
+echo "Image dimensions,Width,Height,Image size (10^6 pixels),Number of images"
 
 for K in "${!sizes[@]}"
 do
         w=`echo $K | cut -d 'x' -f 1`
         h=`echo $K | cut -d 'x' -f 2`
         s=$(($w*$h/1000000))
-        echo "$s,$K,${sizes[$K]}"
+        echo "$K,$w,$h,$s,${sizes[$K]}"
 done
 

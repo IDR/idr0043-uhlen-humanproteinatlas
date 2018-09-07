@@ -1,0 +1,19 @@
+---
+# set min/max to full range
+
+channels:
+  1:
+    color: "ff0000"
+    min: "0"
+    max: "255"
+    active: "true"
+  2:
+    color: "00ff00"
+    min: "0"
+    max: "255"
+    active: "true"
+  3:
+    color: "0000ff"
+    min: "0"
+    max: "255"
+    active: "true"

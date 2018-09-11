@@ -33,14 +33,14 @@ columns:
   - name: Characteristics [Individual]
     clientname: Individual
     include: yes
-  - name: Retrieval method
-    clientname: Retrieval Method
-    include: yes
-  - name: Antibody dilution
-    clientname: Antibody Dilution
-    include: yes
   - name: Term Source 2 Accession
     clientname: SNOMED Identifier
+    include: yes
+  - name: Analysis Gene Annotation Build
+    clientname: Ensembl version
+    include: yes
+  - name: Human Protein Atlas version
+    clientname: Human Protein Atlas version
     include: yes
 
   ######################################################################
@@ -57,13 +57,9 @@ columns:
   - group:
       namespace: openmicroscopy.org/mapr/gene
       columns:
-        - name: Analysis Gene Annotation Build
-          clientname: Ensembl version
-          include: yes
-
         - name: Comment [Gene Identifier] 1
           clientname: Gene Identifier
-          include: "yes"
+          include: yes
         - name: Comment [Gene Identifier] 1
           clientname: Gene Identifier URL
           clientvalue: http://www.ensembl.org/id/{{ value|urlencode }}
@@ -71,10 +67,12 @@ columns:
         - name: Comment [Gene Symbol] 1
           clientname: Gene Symbol
           include: yes
-
+  - group:
+      namespace: openmicroscopy.org/mapr/gene
+      columns:
         - name: Comment [Gene Identifier] 2
           clientname: Gene Identifier
-          include: "yes"
+          include: yes
         - name: Comment [Gene Identifier] 2
           clientname: Gene Identifier URL
           clientvalue: http://www.ensembl.org/id/{{ value|urlencode }}
@@ -83,9 +81,12 @@ columns:
           clientname: Gene Symbol
           include: yes
 
+  - group:
+      namespace: openmicroscopy.org/mapr/gene
+      columns:
         - name: Comment [Gene Identifier] 3
           clientname: Gene Identifier
-          include: "yes"
+          include: yes
         - name: Comment [Gene Identifier] 3
           clientname: Gene Identifier URL
           clientvalue: http://www.ensembl.org/id/{{ value|urlencode }}
@@ -94,9 +95,12 @@ columns:
           clientname: Gene Symbol
           include: yes
 
+  - group:
+      namespace: openmicroscopy.org/mapr/gene
+      columns:
         - name: Comment [Gene Identifier] 4
           clientname: Gene Identifier
-          include: "yes"
+          include: yes
         - name: Comment [Gene Identifier] 4
           clientname: Gene Identifier URL
           clientvalue: http://www.ensembl.org/id/{{ value|urlencode }}
@@ -105,9 +109,12 @@ columns:
           clientname: Gene Symbol
           include: yes
 
+  - group:
+      namespace: openmicroscopy.org/mapr/gene
+      columns:
         - name: Comment [Gene Identifier] 5
           clientname: Gene Identifier
-          include: "yes"
+          include: yes
         - name: Comment [Gene Identifier] 5
           clientname: Gene Identifier URL
           clientvalue: http://www.ensembl.org/id/{{ value|urlencode }}
@@ -116,9 +123,12 @@ columns:
           clientname: Gene Symbol
           include: yes
 
+  - group:
+      namespace: openmicroscopy.org/mapr/gene
+      columns:
         - name: Comment [Gene Identifier] 6
           clientname: Gene Identifier
-          include: "yes"
+          include: yes
         - name: Comment [Gene Identifier] 6
           clientname: Gene Identifier URL
           clientvalue: http://www.ensembl.org/id/{{ value|urlencode }}
@@ -127,9 +137,12 @@ columns:
           clientname: Gene Symbol
           include: yes
 
+  - group:
+      namespace: openmicroscopy.org/mapr/gene
+      columns:
         - name: Comment [Gene Identifier] 7
           clientname: Gene Identifier
-          include: "yes"
+          include: yes
         - name: Comment [Gene Identifier] 7
           clientname: Gene Identifier URL
           clientvalue: http://www.ensembl.org/id/{{ value|urlencode }}
@@ -138,9 +151,12 @@ columns:
           clientname: Gene Symbol
           include: yes
 
+  - group:
+      namespace: openmicroscopy.org/mapr/gene
+      columns:
         - name: Comment [Gene Identifier] 8
           clientname: Gene Identifier
-          include: "yes"
+          include: yes
         - name: Comment [Gene Identifier] 8
           clientname: Gene Identifier URL
           clientvalue: http://www.ensembl.org/id/{{ value|urlencode }}
@@ -160,9 +176,16 @@ columns:
           clientname: Antibody Identifier URL
           clientvalue: http://v18.proteinatlas.org/search/{{ value|urlencode }}
           include: yes
-        - name: Human Protein Atlas version
-          clientname: Human Protein Atlas version
-          include: yes
+
+  - group:
+      namespace: openmicroscopy.org/mapr/antibody/supplementary
+      columns:
+      - name: Antibody dilution
+        clientname: Dilution Factor
+        include: yes
+      - name: Retrieval method
+        clientname: Retrieval Method
+        include: yes
 
 advanced:
     ignore_missing_primary_key: yes
@@ -172,7 +195,7 @@ advanced:
       - Organism
     - namespace: openmicroscopy.org/mapr/antibody
       keys:
-      - Antibody 
+      - Antibody Identifier
     - namespace: openmicroscopy.org/mapr/gene
       keys:
       - Gene Identifier

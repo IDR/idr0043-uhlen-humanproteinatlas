@@ -163,3 +163,17 @@ columns:
         - name: Human Protein Atlas version
           clientname: Human Protein Atlas version
           include: yes
+
+advanced:
+    ignore_missing_primary_key: yes
+    primary_group_keys:
+    - namespace: openmicroscopy.org/mapr/organism
+      keys:
+      - Organism
+    - namespace: openmicroscopy.org/mapr/antibody
+      keys:
+      - Antibody 
+    - namespace: openmicroscopy.org/mapr/gene
+      keys:
+      - Gene Identifier
+

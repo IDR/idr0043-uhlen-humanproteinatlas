@@ -176,4 +176,5 @@ advanced:
     - namespace: openmicroscopy.org/mapr/gene
       keys:
       - Gene Identifier
+      - Gene Symbol
 

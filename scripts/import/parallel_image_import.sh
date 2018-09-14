@@ -3,6 +3,11 @@
 ###
 # Use GNU parallel tool to perform the image import in parallel.
 # 
+# Login: ./omero login
+# Get session key: ./omero sessions list 
+#  and set it as the sessionKey variable below.
+# Keep session alive (separate screen session): ./omero sessions keepalive
+#
 # Usage: Adjust the bulkFile location and as appropriate the number of 
 # parallel jobs (nJobs). The other options are usually fine as they are.  
 #
@@ -13,10 +18,11 @@
 
 ### BEGIN Settings
 bulkFile=../../experimentA/hpa_run_01/idr0043-experimentA-bulk.yml
-nJobs=8
+nJobs=10
 jobslogfile=log
 jobsresultdir=rslt
 export omero=/opt/omero/server/OMERO.server/bin/omero
+export sessionKey=xxxxxx
 ### END Settings
 
 $omero login
@@ -77,7 +83,7 @@ done
 
 import_image() {
   options=${1//\"/}
-  $omero import $options
+  $omero -s localhost -k $sessionKey import --skip all $options
 }
 export -f import_image
 

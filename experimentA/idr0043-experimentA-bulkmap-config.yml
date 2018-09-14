@@ -180,24 +180,23 @@ columns:
   - group:
       namespace: openmicroscopy.org/mapr/antibody/supplementary
       columns:
-      - name: Antibody dilution
-        clientname: Dilution Factor
-        include: yes
-      - name: Retrieval method
-        clientname: Retrieval Method
-        include: yes
+        - name: Antibody dilution
+          clientname: Dilution Factor
+          include: yes
+        - name: Retrieval method
+          clientname: Retrieval Method
+          include: yes
 
 advanced:
-    ignore_missing_primary_key: yes
-    primary_group_keys:
+  ignore_missing_primary_key: yes
+  primary_group_keys:
     - namespace: openmicroscopy.org/mapr/organism
       keys:
-      - Organism
+        - Organism
     - namespace: openmicroscopy.org/mapr/antibody
       keys:
-      - Antibody Identifier
+        - Antibody Identifier
     - namespace: openmicroscopy.org/mapr/gene
       keys:
-      - Gene Identifier
-      - Gene Symbol
-
+        - Gene Identifier
+        - Gene Symbol

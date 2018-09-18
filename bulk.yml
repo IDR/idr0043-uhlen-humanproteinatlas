@@ -2,10 +2,12 @@
 continue: "true"
 transfer: "ln_s"
 exclude: "clientpath"
-checksum_algorithm: "File-Size-64"
-skip: "minmax"
+skip: "all"
+parallel_upload: "10"
+parallel_fileset: "10"
 logprefix: "logs/"
 output: "yaml"
+l: readers.txt
 # Default columns for the regular screens.
 # This may need to be modified in other bulk files.
 columns:

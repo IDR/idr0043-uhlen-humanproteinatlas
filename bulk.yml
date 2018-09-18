@@ -3,8 +3,6 @@ continue: "true"
 transfer: "ln_s"
 exclude: "clientpath"
 skip: "all"
-parallel_upload: "10"
-parallel_fileset: "10"
 logprefix: "logs/"
 output: "yaml"
 l: readers.txt

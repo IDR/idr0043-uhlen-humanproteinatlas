@@ -5,7 +5,9 @@ exclude: "clientpath"
 skip: "all"
 logprefix: "logs/"
 output: "yaml"
-l: readers.txt
+readers: "readers.txt"
+parallel_upload: "10"
+parallel_fileset: "10"
 # Default columns for the regular screens.
 # This may need to be modified in other bulk files.
 columns:

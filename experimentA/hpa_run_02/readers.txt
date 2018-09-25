@@ -1,2 +1,0 @@
-loci.formats.in.TiffReader
-loci.formats.in.SVSReader

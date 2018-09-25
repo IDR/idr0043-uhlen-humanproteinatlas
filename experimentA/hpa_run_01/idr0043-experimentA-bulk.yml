@@ -1,3 +1,4 @@
 ---
-include: "../../bulk.yml"
+include: "../bulk.yml"
+readers: "../readers.txt"
 path: "idr0043-experimentA-filePaths.tsv"

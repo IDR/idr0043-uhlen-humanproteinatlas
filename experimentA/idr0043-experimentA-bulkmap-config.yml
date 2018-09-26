@@ -124,48 +124,6 @@ columns:
           include: yes
 
   - group:
-      namespace: openmicroscopy.org/mapr/gene
-      columns:
-        - name: Comment [Gene Identifier] 6
-          clientname: Gene Identifier
-          include: yes
-        - name: Comment [Gene Identifier] 6
-          clientname: Gene Identifier URL
-          clientvalue: http://www.ensembl.org/id/{{ value|urlencode }}
-          include: yes
-        - name: Comment [Gene Symbol] 6
-          clientname: Gene Symbol
-          include: yes
-
-  - group:
-      namespace: openmicroscopy.org/mapr/gene
-      columns:
-        - name: Comment [Gene Identifier] 7
-          clientname: Gene Identifier
-          include: yes
-        - name: Comment [Gene Identifier] 7
-          clientname: Gene Identifier URL
-          clientvalue: http://www.ensembl.org/id/{{ value|urlencode }}
-          include: yes
-        - name: Comment [Gene Symbol] 7
-          clientname: Gene Symbol
-          include: yes
-
-  - group:
-      namespace: openmicroscopy.org/mapr/gene
-      columns:
-        - name: Comment [Gene Identifier] 8
-          clientname: Gene Identifier
-          include: yes
-        - name: Comment [Gene Identifier] 8
-          clientname: Gene Identifier URL
-          clientvalue: http://www.ensembl.org/id/{{ value|urlencode }}
-          include: yes
-        - name: Comment [Gene Symbol] 8
-          clientname: Gene Symbol
-          include: yes
-
-  - group:
       namespace: openmicroscopy.org/mapr/antibody
       columns:
         - name: Antibody identifier

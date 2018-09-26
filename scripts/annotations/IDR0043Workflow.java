@@ -44,6 +44,7 @@ public class IDR0043Workflow {
         final String datasetNameColumn = "Dataset Name";
         final String geneSymColumn = "Comment [Gene Symbol]";
         final String geneIdColumn = "Comment [Gene Identifier]";
+        final String organismColumn = "Characteristics [Organism]";
         
         final String filePathsFile = "/Users/dlindner/Repositories/idr0043-uhlen-humanproteinatlas/experimentA/hpa_run_02/idr0043-experimentA-filePaths.tsv";
         final String annotationFile = "/Users/dlindner/Repositories/idr0043-uhlen-humanproteinatlas/experimentA/hpa_run_02/idr0043-experimentA-annotation.csv";
@@ -83,7 +84,7 @@ public class IDR0043Workflow {
         filePathsContent = removeRow(filePathsContent, 0);
         
         // save the filePaths.tsv file
-        writeFile(filePathsFile, filePathsContent);
+        //writeFile(filePathsFile, filePathsContent);
         
         
         /**
@@ -107,8 +108,15 @@ public class IDR0043Workflow {
         index = getColumnIndex(annotationContent, datasetNameColumn, CSV);
         annotationContent = renameColumn(annotationContent, index, "Original Dataset Name", CSV);
         
+        // Commented out: If imported as Dataset (target Dataset:123) there mustn't be a 'Dataset Name' column!
         // Add a "Dataset Name" column 'hpa_run_xx' as first column (first two columns must be "Dataset Name" and "Image Name")
-        annotationContent = addColumn(annotationContent, CSV, 0, datasetName, "Dataset Name");
+        // annotationContent = addColumn(annotationContent, CSV, 0, datasetName, "Dataset Name");
+        
+        // Fix issue with organism name
+        index = getColumnIndex(annotationContent, organismColumn, CSV);
+        annotationContent = process(annotationContent, index, CSV, content -> {
+            return "Homo sapiens";
+        });
         
         // The gene id column can have multiple entries, split them into separate columns
         index = getColumnIndex(annotationContent, geneIdColumn, CSV);

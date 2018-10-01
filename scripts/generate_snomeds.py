@@ -3,6 +3,7 @@
 
 import argparse
 import pandas
+import os.path
 
 ORGANISM_PART_COLUMN = 'Characteristics [Organism Part]'
 SNOMED_COLUMN = 'Term Source 2 Accession'
@@ -27,17 +28,17 @@ for term in df[SNOMED_COLUMN]:
 for term in df[ORGANISM_PART_COLUMN]:
     terms.add(term)
 
+directory = os.path.dirname(args.csv_file)
 
 print "Found %g unique SNOMED codes under %s" % (
     len(snomed_codes), SNOMED_COLUMN)
-with open('organism_parts.tsv', 'w') as f:
+with open(os.path.join(directory, 'organism_parts.tsv'), 'w') as f:
     f.write('SNOMED Accession\tTerm\n')
     for code in snomed_codes:
         f.write('%s\t\n' % code)
 
-
 print "Found %g unique terms under %s" % (len(terms), ORGANISM_PART_COLUMN)
-with open('diseases.tsv', 'w') as f:
+with open(os.path.join(directory, 'diseases.tsv'), 'w') as f:
     f.write('SNOMED Accession\tTerm\n')
     for term in terms:
         f.write('\t%s\n' % term)

@@ -35,19 +35,20 @@ public class IDR0043Workflow {
         
         // ====================
         // Parameters
-        
-        final String datasetName = "hpa_run_02";
-        
-        final String assayFile = "/Users/dlindner/Repositories/idr0043-uhlen-humanproteinatlas/experimentA/hpa_run_02/idr0043-experimentA-assays.txt";
+        final String assayFile = "/Users/dlindner/hpa_run_2_assays.txt";
         final String fileNameColumn = "Image File";
         final String filePathColumn = "Comment [Image File Path]";
         final String datasetNameColumn = "Dataset Name";
-        final String geneSymColumn = "Comment [Gene Symbol]";
-        final String geneIdColumn = "Comment [Gene Identifier]";
-        final String organismColumn = "Characteristics [Organism]";
         
-        final String filePathsFile = "/Users/dlindner/Repositories/idr0043-uhlen-humanproteinatlas/experimentA/hpa_run_02/idr0043-experimentA-filePaths.tsv";
-        final String annotationFile = "/Users/dlindner/Repositories/idr0043-uhlen-humanproteinatlas/experimentA/hpa_run_02/idr0043-experimentA-annotation.csv";
+        final String organismColumn = "Characteristics [Organism]";
+        final String geneIdColumn = "Comment [Gene Identifier]";
+        final String geneSymColumn = "Comment [Gene Symbol]";
+        
+        // not relevant for hpa_run_02 as it has two different paths, see getPath() method below
+        final String path = "/uod/idr/filesets/idr0043-uhlen-humanproteinatlas/...";
+        
+        final String filePathsFile = "/Users/dlindner/idr0043-experime ntA-filePaths.tsv";
+        final String annotationFile = "/Users/dlindner/idr0043-experimentA-annotation.csv";
 
         // =====================
         
@@ -61,30 +62,29 @@ public class IDR0043Workflow {
          */
         
         // Extract the column with the image file paths
-        int index = getColumnIndex(input, filePathColumn, TSV);
-        String filePathsContent = extractColumns(input, new int[]{index}, TSV);
+        int fi = getColumnIndex(input, filePathColumn, TSV);
+        int di = getColumnIndex(input, datasetNameColumn, TSV);
+        String filePathsContent = extractColumns(input, new int[]{di, fi}, TSV);
         
-        // Remove image file name (don't list each single image file, just point to the folders)
+        // prefix Dataset:name: for the dataset name column
         filePathsContent = process(filePathsContent, 0, TSV, content -> {
-                return content.substring(0, content.lastIndexOf('/'));
+            return "Dataset:name:"+content;
         });
-        
-        // Add a column with the dataset name
-        filePathsContent = addColumn(filePathsContent, TSV, 0, "Dataset:name:"+datasetName, "");
         
         // Prefix the (relative) image file paths with the /uod/idr/filesets/... path to get the absolute path
         // (for hpa_run_02 it's two different paths, have to look it up in that case)
         // filePathsContent = prefixColumn(filePathsContent, 1, TSV, path+"/", null);
         filePathsContent = process(filePathsContent, 1, TSV, content -> {
-           String s = getPath(content)+"/"+content;
-           return s;
+           String dir = content.substring(0, content.lastIndexOf('/'));
+           String fullPath = getPath(dir)+"/"+content;
+           return fullPath;
         });
         
         // remove the header line
         filePathsContent = removeRow(filePathsContent, 0);
         
         // save the filePaths.tsv file
-        //writeFile(filePathsFile, filePathsContent);
+        writeFile(filePathsFile, filePathsContent);
         
         
         /**
@@ -97,20 +97,16 @@ public class IDR0043Workflow {
         // Remove empty columns
         annotationContent = removeEmptyColumns(annotationContent, CSV);
         
-        // Move the file name column to the front
-        index = getColumnIndex(annotationContent, fileNameColumn, CSV);
+        // Move the dataset name column to the front
+        int index = getColumnIndex(annotationContent, datasetNameColumn, CSV);
         annotationContent = swapColumns(annotationContent, index, 0, CSV);
         
+        // Move the file name column to the front
+        index = getColumnIndex(annotationContent, fileNameColumn, CSV);
+        annotationContent = swapColumns(annotationContent, index, 1, CSV);
+        
         // Rename that column to "Image Name"
-        annotationContent = renameColumn(annotationContent, 0, "Image Name", CSV);
-        
-        // There is already a "Dataset Name" column, rename it to "Original Dataset Name"
-        index = getColumnIndex(annotationContent, datasetNameColumn, CSV);
-        annotationContent = renameColumn(annotationContent, index, "Original Dataset Name", CSV);
-        
-        // Commented out: If imported as Dataset (target Dataset:123) there mustn't be a 'Dataset Name' column!
-        // Add a "Dataset Name" column 'hpa_run_xx' as first column (first two columns must be "Dataset Name" and "Image Name")
-        // annotationContent = addColumn(annotationContent, CSV, 0, datasetName, "Dataset Name");
+        annotationContent = renameColumn(annotationContent, 1, "Image Name", CSV);
         
         // Fix issue with organism name
         index = getColumnIndex(annotationContent, organismColumn, CSV);

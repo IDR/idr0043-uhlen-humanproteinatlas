@@ -8,10 +8,13 @@ import pandas
 # Files
 annotationsFile = "/home/dlindner/idr0043-experimentA-annotation.csv"
 imageIdsFile = "/home/dlindner/imageIds.txt"
-# psql -h 192.168.53.5 idr omeroreadonly -c 'select child from datasetimagelink where parent = 1351;' > output.txt
-# sed -i 's/[ ]*//' output.txt
-# sed -i 1,2d output.txt
-# head -n -2 output.txt > imageIds.txt
+'''
+psql -h 192.168.53.5 idr omeroreadonly -c 'select child from
+    datasetimagelink where parent = 1351;' > output.txt
+sed -i 's/[ ]*//' output.txt
+sed -i 1,2d output.txt
+head -n -2 output.txt > imageIds.txt
+'''
 
 # OMERO credentials
 user = "root"
@@ -35,7 +38,8 @@ datasetByImageName = {}
 df = pandas.read_csv(annotationsFile)
 for index, row in df.iterrows():
     if row["Image Name"] in datasetByImageName:
-        raise Exception(" !!! line %i : %s has already been added" % (index, row["Image Name"]))
+        raise Exception(" !!! line %i : %s has already been added"
+                        % (index, row["Image Name"]))
     datasetByImageName[row["Image Name"]] = row["Dataset Name"]
 
 datasetByName = {}
@@ -83,4 +87,3 @@ if len(links) > 0:
     conn.getUpdateService().saveAndReturnArray(links)
     done += len(links)
     print "%i images linked." % done
-

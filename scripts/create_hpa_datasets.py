@@ -6,7 +6,7 @@ from omero.rtypes import rstring
 import pandas
 
 # Files
-annotationsFile = "../../experimentA/hpa_run_01/idr0043-experimentA-annotation.csv"
+annoFile = "../../experimentA/hpa_run_01/idr0043-experimentA-annotation.csv"
 imageIdsFile = "imageIds.txt"
 '''
 psql -h 192.168.53.5 idr omeroreadonly -c 'select child from
@@ -35,7 +35,7 @@ for ds in project.listChildren():
     existingDatasetsByName[ds.name] = ds._obj
 
 datasetByImageName = {}
-df = pandas.read_csv(annotationsFile)
+df = pandas.read_csv(annoFile)
 for index, row in df.iterrows():
     if row["Image Name"] in datasetByImageName:
         raise Exception(" !!! line %i : %s has already been added"

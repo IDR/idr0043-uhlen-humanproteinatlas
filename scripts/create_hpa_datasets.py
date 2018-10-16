@@ -6,8 +6,8 @@ from omero.rtypes import rstring
 import pandas
 
 # Files
-annotationsFile = "/home/dlindner/idr0043-experimentA-annotation.csv"
-imageIdsFile = "/home/dlindner/imageIds.txt"
+annotationsFile = "../../experimentA/hpa_run_01/idr0043-experimentA-annotation.csv"
+imageIdsFile = "imageIds.txt"
 '''
 psql -h 192.168.53.5 idr omeroreadonly -c 'select child from
     datasetimagelink where parent = 1351;' > output.txt

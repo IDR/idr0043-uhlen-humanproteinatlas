@@ -35,20 +35,26 @@ public class IDR0043Workflow {
         
         // ====================
         // Parameters
-        final String assayFile = "/Users/dlindner/hpa_run_2_assays.txt";
+        final String basedir = "/Users/dlindner/Repositories";
+        
+        final String assayFile = basedir+"/idr0043-uhlen-humanproteinatlas/experimentA/hpa_run_01/idr0043-experimentA-assays.txt";
         final String fileNameColumn = "Image File";
         final String filePathColumn = "Comment [Image File Path]";
         final String datasetNameColumn = "Dataset Name";
         
         final String organismColumn = "Characteristics [Organism]";
-        final String geneIdColumn = "Comment [Gene Identifier]";
-        final String geneSymColumn = "Comment [Gene Symbol]";
         
-        // not relevant for hpa_run_02 as it has two different paths, see getPath() method below
+        final String[] removeColumns = {"Term Source 1 REF", "Comment [Image File Type]"};
+        
+        final String[] splitColumns = {"Term Source 2 Accession", "Term Source 2 Description", 
+                "Term Source 3 Accession", "Term Source 3 Description", "Comment [Gene Identifier]", 
+                "Comment [Gene Symbol]"};
+        
+        // not relevant for hpa_run_01 as it has two different paths, see getPath() method below
         final String path = "/uod/idr/filesets/idr0043-uhlen-humanproteinatlas/...";
         
-        final String filePathsFile = "/Users/dlindner/idr0043-experime ntA-filePaths.tsv";
-        final String annotationFile = "/Users/dlindner/idr0043-experimentA-annotation.csv";
+        final String filePathsFile = basedir+"/idr0043-uhlen-humanproteinatlas/experimentA/hpa_run_01/idr0043-experimentA-filePaths.tsv";
+        final String annotationFile = basedir+"/idr0043-uhlen-humanproteinatlas/experimentA/hpa_run_01/idr0043-experimentA-annotation.csv";
 
         // =====================
         
@@ -114,13 +120,17 @@ public class IDR0043Workflow {
             return "Homo sapiens";
         });
         
-        // The gene id column can have multiple entries, split them into separate columns
-        index = getColumnIndex(annotationContent, geneIdColumn, CSV);
-        annotationContent = splitColumn(annotationContent, index, CSV, ';');
+        // Delete columns with unnecessary information
+        for (String rem : removeColumns) {
+            index = getColumnIndex(annotationContent, rem, CSV);
+            annotationContent = removeColumn(annotationContent, index, CSV);
+        }
         
-        // Same for the gene symbol column
-        index = getColumnIndex(annotationContent, geneSymColumn, CSV);
-        annotationContent = splitColumn(annotationContent, index, CSV, ';');
+        // Split columns which have multiple entries
+        for (String split : splitColumns) {
+            index = getColumnIndex(annotationContent, split, CSV);
+            annotationContent = splitColumn(annotationContent, index, CSV, ';');
+        }
         
         // Finally save the annotion.csv file
         writeFile(annotationFile, annotationContent);
@@ -133,7 +143,7 @@ public class IDR0043Workflow {
     final static String path2Files = "64555, 64556, 64557, 64571, 64576, 64607, 64613, 64621, 64623, 64637, 64670, 64677, 64678, 64686, 64687, 64696, 64702, 64708, 64713, 64734, 64736, 64740, 64755, 64763, 64783, 64784, 64788, 64792, 64821, 64826, 64829, 64835, 64836, 64843, 64845, 64853, 64854, 64856, 64861, 64872, 64874, 64885, 64887, 64892, 64930, 64939, 64946, 64962, 64970, 64978, 64996, 65008, 65016, 65019, 65037, 65044, 65048, 65051, 65052, 65062, 65064, 65092, 65126, 65160, 65166, 65197, 65208, 65214, 65219, 65232, 65235, 65246, 65254, 65257, 65273, 65285, 65287, 65294, 65296, 65302, 65309, 65311, 65317, 65320, 65327, 65331, 65335, 65337, 65343, 65385, 65409, 65419, 65424, 65425, 65436, 65474, 65482, 65484, 65505, 65523, 65526, 65539, 65540, 65576, 65586, 65599, 65600, 65634, 65649, 65661, 65682, 65685, 65686, 65703, 65706, 65711, 65713, 65718, 65720, 65721, 65730, 65734, 65739, 65743, 65753, 65758, 65764, 65766, 65831, 65858, 65890, 65931, 65937, 65946, 65947, 65955, 65958, 65961, 65983, 65996, 66010, 66026, 66029, 66037, 66042, 66046, 66053, 66058, 66060, 66070, 66083, 66098, 66115, 66120, 66142, 66173, 66185, 66197, 66214, 66216, 66229, 66235, 66238, 66240, 66271, 66283, 66290, 66293, 66302, 66315, 66326, 66327, 66349, 66352, 66383, 66463, 66464, 66468, 66478, 66482, 66498, 66509, 66520, 66538, 66548, 66571, 66648, 66695, 66697, 66707, 66710, 66715, 66718, 66721, 66754, 66762, 66771, 66774, 66780, 66782, 66784, 66790, 66832, 66834, 66836, 66838, 66841, 66861, 66872, 66888, 66890, 66900, 66902, 66907, 66920, 66927, 66953, 66957, 66996, 67007, 67015, 67026, 67031, 67045, 67046, 67063, 67097, 67102, 67103, 67114, 67117, 67140, 67151, 67152, 67155, 67160, 67189, 67196, 67203, 67222, 67225, 67230, 67239, 67245, 67249, 67250, 67252, 67258, 67290, 67305, 67322, 67326, 67333, 67336, 67388, 67395, 67407, 67418, 67423, 67433, 67440, 67448, 67455, 67493, 67500, 67503, 67533, 67536, 67538, 67540, 67546, 67561, 67584, 67595, 67601, 67602, 67632, 67639, 67643, 67657, 67671, 67682, 67683, 67685, 67690, 67711, 67734, 67740, 67751, 67758, 67767, 67811, 67812, 67817, 67824, 67827, 67850, 67855, 67875, 67878, 67880, 67881, 67889, 67891, 67895, 67906, 67925, 67946, 67947, 67952, 67966, 67970, 67971, 67972, 67973, 67983, 68009, 68012, 68024, 68049, 68064, 68079, 68082, 68093, 68099, 68106, 68114, 68119, 68122, 68125, 68172, 68175, 68176, 68177, 68178, 68179, 68180, 68181, 68182, 68183, 68184, 68185, 68186, 68187, 68188, 68189, 68190, 68191, 68192, 68193, 68194, 68195, 68196, 68197, 68198, 68199, 68200, 68201, 68203, 68204, 68205, 68206, 68207, 68208, 68209, 68210, 68211, 68212, 68213, 68214, 68215, 68216, 68217, 68218, 68219, 68220, 68221, 68222, 68223, 68224, 68225, 68226, 68227, 68228, 68229, 68230, 68231, 68232, 68233, 68234, 68235, 68236, 68237, 68239, 68240, 68241, 68242, 68243, 68244, 68245, 68246, 68247, 68248, 68249, 68250, 68251, 68252, 68253, 68255, 68266, 68288, 68304, 68322, 68379, 68384, 68399, 68416, 68417, 68418, 68429, 68447, 68461, 68473, 68479, 68501, 68520, 68525, 68560, 68563, 68608, 68609, 68647, 68660, 68664, 68695, 68717, 68727, 68764, 68768, 68771, 68772, 68786, 68787, 68790, 68792, 68795, 68812, 68838, 68843, 68864, 68898, 68925, 68930, 68982, 68992, 69003, 69022, 69037, 69039, 69045, 69056, 69064, 69081, 69088, 69094, 69096, 69097, 69102, 69107, 69116, 69119, 69130, 69136, 69146, 69165, 69176, 69190, 69248, 69278, 69290, 69291, 69297, 69311, 69318, 69319, 69320, 69321, 69328, 69333, 69341, 69344, 69359, 69378, 69386, 69392, 69394, 69395, 69396, 69399, 69400 ";
     
     /**
-     * Look up the abs path, only relevant for hpa_run_02
+     * Look up the abs path, only relevant for hpa_run_01
      * @param file
      * @return
      */

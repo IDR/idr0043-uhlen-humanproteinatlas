@@ -6,9 +6,10 @@ from omero.rtypes import rstring
 import pandas
 
 # Files
-annoFile = "../../experimentA/hpa_run_01/idr0043-experimentA-annotation.csv"
+annoFile = "../experimentA/hpa_run_01/idr0043-experimentA-annotation.csv"
 imageIdsFile = "imageIds.txt"
 '''
+Create the imageIds.txt with:
 psql -h 192.168.53.5 idr omeroreadonly -c 'select child from
     datasetimagelink where parent = 1351;' > output.txt
 sed -i 's/[ ]*//' output.txt
@@ -71,19 +72,32 @@ with open(imageIdsFile) as reader:
     line = reader.readline()
     while line:
         img = conn.getObject("Image", line)
-        dataset = datasetByImageName[img.name]
+        try:
+            dataset = datasetByImageName[img.name]
+        except KeyError, e:
+            dataset = None
+            print "%s not found, skipping." % img.name
+
         if dataset is not None:
             link = omero.model.DatasetImageLinkI()
             link.setParent(dataset)
             link.setChild(img._obj)
             links.append(link)
         if len(links) > 99:
-            conn.getUpdateService().saveAndReturnArray(links)
-            done += len(links)
-            print "%i images linked." % done
-            links = []
+            try:
+                conn.getUpdateService().saveAndReturnArray(links)
+                done += len(links)
+                print "%i images linked." % done
+            except:
+                print "Error. Skipping some."
+            finally:
+                links = []
+        line = reader.readline()
 
 if len(links) > 0:
-    conn.getUpdateService().saveAndReturnArray(links)
-    done += len(links)
-    print "%i images linked." % done
+    try:
+        conn.getUpdateService().saveAndReturnArray(links)
+        done += len(links)
+        print "%i images linked." % done
+    except:
+        print "Error. Skipping some."

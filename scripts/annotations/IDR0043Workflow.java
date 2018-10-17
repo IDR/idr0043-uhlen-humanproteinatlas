@@ -43,12 +43,11 @@ public class IDR0043Workflow {
         final String datasetNameColumn = "Dataset Name";
         
         final String organismColumn = "Characteristics [Organism]";
+        final String ensemblColumn = "Analysis Gene Annotation Build";
         
         final String[] removeColumns = {"Term Source 1 REF", "Comment [Image File Type]"};
         
-        final String[] splitColumns = {"Term Source 2 Accession", "Term Source 2 Description", 
-                "Term Source 3 Accession", "Term Source 3 Description", "Comment [Gene Identifier]", 
-                "Comment [Gene Symbol]"};
+        final String[] splitColumns = {"Comment [Gene Identifier]", "Comment [Gene Symbol]"};
         
         // not relevant for hpa_run_01 as it has two different paths, see getPath() method below
         final String path = "/uod/idr/filesets/idr0043-uhlen-humanproteinatlas/...";
@@ -118,6 +117,13 @@ public class IDR0043Workflow {
         index = getColumnIndex(annotationContent, organismColumn, CSV);
         annotationContent = process(annotationContent, index, CSV, content -> {
             return "Homo sapiens";
+        });
+        
+        // Fix the ensembl version column
+        index = getColumnIndex(annotationContent, ensemblColumn, CSV);
+        annotationContent = renameColumn(annotationContent, index, "Ensembl version", CSV);
+        annotationContent = process(annotationContent, index, CSV, content -> {
+            return content.replace("Ensembl version ", "");
         });
         
         // Delete columns with unnecessary information

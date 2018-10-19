@@ -1,11 +1,9 @@
 from omero.gateway import BlitzGateway
-import omero.model
-from omero.rtypes import rstring
 import pandas
 
 '''
-This script simply gets the IDs of the datasets referenced in the annotation.csv
-and prints them to std out.
+This script simply gets the IDs of the datasets referenced in the
+annotation.csv and prints them to std out.
 '''
 
 # Files

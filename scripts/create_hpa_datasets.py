@@ -88,7 +88,7 @@ with open(imageIdsFile) as reader:
                 conn.getUpdateService().saveAndReturnArray(links)
                 done += len(links)
                 print "%i images linked." % done
-            except:
+            except Exception:
                 print "Error. Skipping some."
             finally:
                 links = []
@@ -99,5 +99,5 @@ if len(links) > 0:
         conn.getUpdateService().saveAndReturnArray(links)
         done += len(links)
         print "%i images linked." % done
-    except:
+    except Exception:
         print "Error. Skipping some."

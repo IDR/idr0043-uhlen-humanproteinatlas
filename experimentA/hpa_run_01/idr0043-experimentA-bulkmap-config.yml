@@ -21,9 +21,6 @@ defaults:
 
 columns:
 
-  - name: Characteristics [Organism Part]
-    clientname: Organism Part
-    include: yes
   - name: Characteristics [Sex]
     clientname: Sex
     include: yes
@@ -34,13 +31,13 @@ columns:
     clientname: Individual
     include: yes
   - name: Term Source 2 Description
-    clientname: Tissue
+    clientname: Organism Part
     include: yes
   - name: Term Source 2 Accession
     clientname: Identifier
     include: yes
   - name: Term Source 3 Description
-    clientname: Disease
+    clientname: Pathology
     include: yes
   - name: Term Source 3 Accession
     clientname: Identifier

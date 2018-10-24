@@ -55,6 +55,10 @@ public class IDR0043Workflow {
         final String filePathsFile = basedir+"/idr0043-uhlen-humanproteinatlas/experimentA/hpa_run_01/idr0043-experimentA-filePaths.tsv";
         final String annotationFile = basedir+"/idr0043-uhlen-humanproteinatlas/experimentA/hpa_run_01/idr0043-experimentA-annotation.csv";
 
+        final boolean genFilepaths = false;
+        
+        final boolean genAnnotations = true;
+        
         // =====================
         
         final char TSV = '\t';
@@ -62,84 +66,86 @@ public class IDR0043Workflow {
         
         String input = readFile(assayFile);
         
+        
         /**
          *  create filePath.tsv
          */
-        
-        // Extract the column with the image file paths
-        int fi = getColumnIndex(input, filePathColumn, TSV);
-        int di = getColumnIndex(input, datasetNameColumn, TSV);
-        String filePathsContent = extractColumns(input, new int[]{di, fi}, TSV);
-        
-        // prefix Dataset:name: for the dataset name column
-        filePathsContent = process(filePathsContent, 0, TSV, content -> {
-            return "Dataset:name:"+content;
-        });
-        
-        // Prefix the (relative) image file paths with the /uod/idr/filesets/... path to get the absolute path
-        // (for hpa_run_02 it's two different paths, have to look it up in that case)
-        // filePathsContent = prefixColumn(filePathsContent, 1, TSV, path+"/", null);
-        filePathsContent = process(filePathsContent, 1, TSV, content -> {
-           String dir = content.substring(0, content.lastIndexOf('/'));
-           String fullPath = getPath(dir)+"/"+content;
-           return fullPath;
-        });
-        
-        // remove the header line
-        filePathsContent = removeRow(filePathsContent, 0);
-        
-        // save the filePaths.tsv file
-        writeFile(filePathsFile, filePathsContent);
-        
+        if (genFilepaths) {
+            // Extract the column with the image file paths
+            int fi = getColumnIndex(input, filePathColumn, TSV);
+            int di = getColumnIndex(input, datasetNameColumn, TSV);
+            String filePathsContent = extractColumns(input, new int[]{di, fi}, TSV);
+            
+            // prefix Dataset:name: for the dataset name column
+            filePathsContent = process(filePathsContent, 0, TSV, content -> {
+                return "Dataset:name:"+content;
+            });
+            
+            // Prefix the (relative) image file paths with the /uod/idr/filesets/... path to get the absolute path
+            // (for hpa_run_02 it's two different paths, have to look it up in that case)
+            // filePathsContent = prefixColumn(filePathsContent, 1, TSV, path+"/", null);
+            filePathsContent = process(filePathsContent, 1, TSV, content -> {
+               String dir = content.substring(0, content.lastIndexOf('/'));
+               String fullPath = getPath(dir)+"/"+content;
+               return fullPath;
+            });
+            
+            // remove the header line
+            filePathsContent = removeRow(filePathsContent, 0);
+            
+            // save the filePaths.tsv file
+            writeFile(filePathsFile, filePathsContent);
+        }
         
         /**
          * create annotation.csv
          */
-        
-        // Convert the tsv assays file to a csv file
-        String annotationContent = format(input, TSV, CSV);
-        
-        // Remove empty columns
-        annotationContent = removeEmptyColumns(annotationContent, CSV);
-        
-        // Move the dataset name column to the front
-        int index = getColumnIndex(annotationContent, datasetNameColumn, CSV);
-        annotationContent = swapColumns(annotationContent, index, 0, CSV);
-        
-        // Move the file name column to the front
-        index = getColumnIndex(annotationContent, fileNameColumn, CSV);
-        annotationContent = swapColumns(annotationContent, index, 1, CSV);
-        
-        // Rename that column to "Image Name"
-        annotationContent = renameColumn(annotationContent, 1, "Image Name", CSV);
-        
-        // Fix issue with organism name
-        index = getColumnIndex(annotationContent, organismColumn, CSV);
-        annotationContent = process(annotationContent, index, CSV, content -> {
-            return "Homo sapiens";
-        });
-        
-        // Fix the ensembl version column
-        index = getColumnIndex(annotationContent, ensemblColumn, CSV);
-        annotationContent = renameColumn(annotationContent, index, "Ensembl version", CSV);
-        annotationContent = process(annotationContent, index, CSV, content -> {
-            return content.replace("Ensembl version ", "");
-        });
-        
-        // Delete columns with unnecessary information
-        for (String rem : removeColumns) {
-            index = getColumnIndex(annotationContent, rem, CSV);
-            annotationContent = removeColumn(annotationContent, index, CSV);
+        if (genAnnotations) {
+            // Convert the tsv assays file to a csv file
+            String annotationContent = format(input, TSV, CSV);
+            
+            // Remove empty columns
+            annotationContent = removeEmptyColumns(annotationContent, CSV);
+            
+            // Move the dataset name column to the front
+            int index = getColumnIndex(annotationContent, datasetNameColumn, CSV);
+            annotationContent = swapColumns(annotationContent, index, 0, CSV);
+            
+            // Move the file name column to the front
+            index = getColumnIndex(annotationContent, fileNameColumn, CSV);
+            annotationContent = swapColumns(annotationContent, index, 1, CSV);
+            
+            // Rename that column to "Image Name"
+            annotationContent = renameColumn(annotationContent, 1, "Image Name", CSV);
+            
+            // Fix issue with organism name
+            index = getColumnIndex(annotationContent, organismColumn, CSV);
+            annotationContent = process(annotationContent, index, CSV, content -> {
+                return "Homo sapiens";
+            });
+            
+            // Fix the ensembl version column
+            index = getColumnIndex(annotationContent, ensemblColumn, CSV);
+            annotationContent = renameColumn(annotationContent, index, "Ensembl version", CSV);
+            annotationContent = process(annotationContent, index, CSV, content -> {
+                return content.replace("Ensembl version ", "");
+            });
+            
+            // Delete columns with unnecessary information
+            for (String rem : removeColumns) {
+                index = getColumnIndex(annotationContent, rem, CSV);
+                annotationContent = removeColumn(annotationContent, index, CSV);
+            }
+            
+            // Split columns which have multiple entries
+            for (String split : splitColumns) {
+                index = getColumnIndex(annotationContent, split, CSV);
+                annotationContent = splitColumn(annotationContent, index, CSV, ';');
+            }
+            
+            // Finally save the annotion.csv file
+            writeFile(annotationFile, annotationContent);
         }
-        
-        // Split columns which have multiple entries
-        for (String split : splitColumns) {
-            index = getColumnIndex(annotationContent, split, CSV);
-            annotationContent = splitColumn(annotationContent, index, CSV, ';');
-        }
-        
-        // Finally save the annotion.csv file
-        writeFile(annotationFile, annotationContent);
     }
     
     final static String path1 = "/uod/idr/filesets/idr0043-uhlen-humanproteinatlas/20180825-ftp";

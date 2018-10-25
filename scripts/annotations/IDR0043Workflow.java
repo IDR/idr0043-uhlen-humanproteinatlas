@@ -144,10 +144,13 @@ public class IDR0043Workflow {
             cName = "Term Source 2 Description";
             index = getColumnIndex(annotationContent, cName, CSV);
             annotationContent = renameColumn(annotationContent, index, "Characteristics [Organism Part]", CSV);
-            
+
             cName = "Term Source 2 Accession";
             index = getColumnIndex(annotationContent, cName, CSV);
             annotationContent = renameColumn(annotationContent, index, "Characteristics [Organism Part] Accession", CSV);
+            
+            // swap accNo and desc columns
+            annotationContent = swapColumns(annotationContent, index, index+1, CSV);
             
             cName = "Term Source 3 Description";
             index = getColumnIndex(annotationContent, cName, CSV);
@@ -156,6 +159,9 @@ public class IDR0043Workflow {
             cName = "Term Source 3 Accession";
             index = getColumnIndex(annotationContent, cName, CSV);
             annotationContent = renameColumn(annotationContent, index, "Characteristics [Pathology] Accession", CSV);
+            
+            // swap accNo and desc columns
+            annotationContent = swapColumns(annotationContent, index, index+1, CSV);
             
             // Split columns which have multiple entries
             for (String split : splitColumns) {

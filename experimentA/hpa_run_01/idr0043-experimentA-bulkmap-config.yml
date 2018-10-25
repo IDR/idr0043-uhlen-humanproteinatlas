@@ -30,23 +30,17 @@ columns:
   - name: Characteristics [Individual]
     clientname: Individual
     include: yes
-  - name: Term Source 2 Description
+  - name: Characteristics [Organism Part]
     clientname: Organism Part
     include: yes
-  - name: Term Source 2 Accession
-    clientname: Identifier
+  - name: Characteristics [Organism Part] Accession
+    clientname: Organism Part Identifier
     include: yes
-  - name: Term Source 3 Description
+  - name: Characteristics [Pathology]
     clientname: Pathology
     include: yes
-  - name: Term Source 3 Accession
-    clientname: Identifier
-    include: yes
-  - name: Ensembl version
-    clientname: Ensembl version
-    include: yes
-  - name: Human Protein Atlas version
-    clientname: Human Protein Atlas version
+  - name: Characteristics [Pathology] Accession
+    clientname: Pathology Identifier
     include: yes
 
   ######################################################################
@@ -130,6 +124,13 @@ columns:
           include: yes
 
   - group:
+      namespace: openmicroscopy.org/mapr/gene/supplementary
+      columns:
+        - name: Ensembl version
+          clientname: Ensembl version
+          include: yes
+
+  - group:
       namespace: openmicroscopy.org/mapr/antibody
       columns:
         - name: Antibody identifier
@@ -149,6 +150,9 @@ columns:
           include: yes
         - name: Retrieval method
           clientname: Retrieval Method
+          include: yes
+        - name: Human Protein Atlas version
+          clientname: Human Protein Atlas version
           include: yes
 
 advanced:

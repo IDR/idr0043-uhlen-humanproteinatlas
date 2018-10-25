@@ -45,7 +45,7 @@ public class IDR0043Workflow {
         final String organismColumn = "Characteristics [Organism]";
         final String ensemblColumn = "Analysis Gene Annotation Build";
         
-        final String[] removeColumns = {"Term Source 1 REF", "Comment [Image File Type]"};
+        final String[] removeColumns = {"Term Source 1 REF", "Comment [Image File Type]", "Characteristics [Organism Part]"};
         
         final String[] splitColumns = {"Comment [Gene Identifier]", "Comment [Gene Symbol]"};
         
@@ -136,6 +136,26 @@ public class IDR0043Workflow {
                 index = getColumnIndex(annotationContent, rem, CSV);
                 annotationContent = removeColumn(annotationContent, index, CSV);
             }
+            
+            String cName = "Term Source 2 REF";
+            index = getColumnIndex(annotationContent, cName, CSV);
+            annotationContent = renameColumn(annotationContent, index, "Term Source REF", CSV);
+            
+            cName = "Term Source 2 Description";
+            index = getColumnIndex(annotationContent, cName, CSV);
+            annotationContent = renameColumn(annotationContent, index, "Characteristics [Organism Part]", CSV);
+            
+            cName = "Term Source 2 Accession";
+            index = getColumnIndex(annotationContent, cName, CSV);
+            annotationContent = renameColumn(annotationContent, index, "Characteristics [Organism Part] Accession", CSV);
+            
+            cName = "Term Source 3 Description";
+            index = getColumnIndex(annotationContent, cName, CSV);
+            annotationContent = renameColumn(annotationContent, index, "Characteristics [Pathology]", CSV);
+            
+            cName = "Term Source 3 Accession";
+            index = getColumnIndex(annotationContent, cName, CSV);
+            annotationContent = renameColumn(annotationContent, index, "Characteristics [Pathology] Accession", CSV);
             
             // Split columns which have multiple entries
             for (String split : splitColumns) {

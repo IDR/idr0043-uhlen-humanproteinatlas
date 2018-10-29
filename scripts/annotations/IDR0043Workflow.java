@@ -35,20 +35,30 @@ public class IDR0043Workflow {
         
         // ====================
         // Parameters
+        final String basedir = "/Users/dlindner/Repositories";
         
-        final String datasetName = "hpa_run_02";
-        
-        final String assayFile = "/Users/dlindner/Repositories/idr0043-uhlen-humanproteinatlas/experimentA/hpa_run_02/idr0043-experimentA-assays.txt";
+        final String assayFile = basedir+"/idr0043-uhlen-humanproteinatlas/experimentA/hpa_run_01/idr0043-experimentA-assays.txt";
         final String fileNameColumn = "Image File";
         final String filePathColumn = "Comment [Image File Path]";
         final String datasetNameColumn = "Dataset Name";
-        final String geneSymColumn = "Comment [Gene Symbol]";
-        final String geneIdColumn = "Comment [Gene Identifier]";
-        final String organismColumn = "Characteristics [Organism]";
         
-        final String filePathsFile = "/Users/dlindner/Repositories/idr0043-uhlen-humanproteinatlas/experimentA/hpa_run_02/idr0043-experimentA-filePaths.tsv";
-        final String annotationFile = "/Users/dlindner/Repositories/idr0043-uhlen-humanproteinatlas/experimentA/hpa_run_02/idr0043-experimentA-annotation.csv";
+        final String organismColumn = "Characteristics [Organism]";
+        final String ensemblColumn = "Analysis Gene Annotation Build";
+        
+        final String[] removeColumns = {"Term Source 1 REF", "Comment [Image File Type]", "Characteristics [Organism Part]"};
+        
+        final String[] splitColumns = {"Comment [Gene Identifier]", "Comment [Gene Symbol]"};
+        
+        // not relevant for hpa_run_01 as it has two different paths, see getPath() method below
+        final String path = "/uod/idr/filesets/idr0043-uhlen-humanproteinatlas/...";
+        
+        final String filePathsFile = basedir+"/idr0043-uhlen-humanproteinatlas/experimentA/hpa_run_01/idr0043-experimentA-filePaths.tsv";
+        final String annotationFile = basedir+"/idr0043-uhlen-humanproteinatlas/experimentA/hpa_run_01/idr0043-experimentA-annotation.csv";
 
+        final boolean genFilepaths = false;
+        
+        final boolean genAnnotations = true;
+        
         // =====================
         
         final char TSV = '\t';
@@ -56,78 +66,112 @@ public class IDR0043Workflow {
         
         String input = readFile(assayFile);
         
+        
         /**
          *  create filePath.tsv
          */
-        
-        // Extract the column with the image file paths
-        int index = getColumnIndex(input, filePathColumn, TSV);
-        String filePathsContent = extractColumns(input, new int[]{index}, TSV);
-        
-        // Remove image file name (don't list each single image file, just point to the folders)
-        filePathsContent = process(filePathsContent, 0, TSV, content -> {
-                return content.substring(0, content.lastIndexOf('/'));
-        });
-        
-        // Add a column with the dataset name
-        filePathsContent = addColumn(filePathsContent, TSV, 0, "Dataset:name:"+datasetName, "");
-        
-        // Prefix the (relative) image file paths with the /uod/idr/filesets/... path to get the absolute path
-        // (for hpa_run_02 it's two different paths, have to look it up in that case)
-        // filePathsContent = prefixColumn(filePathsContent, 1, TSV, path+"/", null);
-        filePathsContent = process(filePathsContent, 1, TSV, content -> {
-           String s = getPath(content)+"/"+content;
-           return s;
-        });
-        
-        // remove the header line
-        filePathsContent = removeRow(filePathsContent, 0);
-        
-        // save the filePaths.tsv file
-        //writeFile(filePathsFile, filePathsContent);
-        
+        if (genFilepaths) {
+            // Extract the column with the image file paths
+            int fi = getColumnIndex(input, filePathColumn, TSV);
+            int di = getColumnIndex(input, datasetNameColumn, TSV);
+            String filePathsContent = extractColumns(input, new int[]{di, fi}, TSV);
+            
+            // prefix Dataset:name: for the dataset name column
+            filePathsContent = process(filePathsContent, 0, TSV, content -> {
+                return "Dataset:name:"+content;
+            });
+            
+            // Prefix the (relative) image file paths with the /uod/idr/filesets/... path to get the absolute path
+            // (for hpa_run_02 it's two different paths, have to look it up in that case)
+            // filePathsContent = prefixColumn(filePathsContent, 1, TSV, path+"/", null);
+            filePathsContent = process(filePathsContent, 1, TSV, content -> {
+               String dir = content.substring(0, content.lastIndexOf('/'));
+               String fullPath = getPath(dir)+"/"+content;
+               return fullPath;
+            });
+            
+            // remove the header line
+            filePathsContent = removeRow(filePathsContent, 0);
+            
+            // save the filePaths.tsv file
+            writeFile(filePathsFile, filePathsContent);
+        }
         
         /**
          * create annotation.csv
          */
-        
-        // Convert the tsv assays file to a csv file
-        String annotationContent = format(input, TSV, CSV);
-        
-        // Remove empty columns
-        annotationContent = removeEmptyColumns(annotationContent, CSV);
-        
-        // Move the file name column to the front
-        index = getColumnIndex(annotationContent, fileNameColumn, CSV);
-        annotationContent = swapColumns(annotationContent, index, 0, CSV);
-        
-        // Rename that column to "Image Name"
-        annotationContent = renameColumn(annotationContent, 0, "Image Name", CSV);
-        
-        // There is already a "Dataset Name" column, rename it to "Original Dataset Name"
-        index = getColumnIndex(annotationContent, datasetNameColumn, CSV);
-        annotationContent = renameColumn(annotationContent, index, "Original Dataset Name", CSV);
-        
-        // Commented out: If imported as Dataset (target Dataset:123) there mustn't be a 'Dataset Name' column!
-        // Add a "Dataset Name" column 'hpa_run_xx' as first column (first two columns must be "Dataset Name" and "Image Name")
-        // annotationContent = addColumn(annotationContent, CSV, 0, datasetName, "Dataset Name");
-        
-        // Fix issue with organism name
-        index = getColumnIndex(annotationContent, organismColumn, CSV);
-        annotationContent = process(annotationContent, index, CSV, content -> {
-            return "Homo sapiens";
-        });
-        
-        // The gene id column can have multiple entries, split them into separate columns
-        index = getColumnIndex(annotationContent, geneIdColumn, CSV);
-        annotationContent = splitColumn(annotationContent, index, CSV, ';');
-        
-        // Same for the gene symbol column
-        index = getColumnIndex(annotationContent, geneSymColumn, CSV);
-        annotationContent = splitColumn(annotationContent, index, CSV, ';');
-        
-        // Finally save the annotion.csv file
-        writeFile(annotationFile, annotationContent);
+        if (genAnnotations) {
+            // Convert the tsv assays file to a csv file
+            String annotationContent = format(input, TSV, CSV);
+            
+            // Remove empty columns
+            annotationContent = removeEmptyColumns(annotationContent, CSV);
+            
+            // Move the dataset name column to the front
+            int index = getColumnIndex(annotationContent, datasetNameColumn, CSV);
+            annotationContent = swapColumns(annotationContent, index, 0, CSV);
+            
+            // Move the file name column to the front
+            index = getColumnIndex(annotationContent, fileNameColumn, CSV);
+            annotationContent = swapColumns(annotationContent, index, 1, CSV);
+            
+            // Rename that column to "Image Name"
+            annotationContent = renameColumn(annotationContent, 1, "Image Name", CSV);
+            
+            // Fix issue with organism name
+            index = getColumnIndex(annotationContent, organismColumn, CSV);
+            annotationContent = process(annotationContent, index, CSV, content -> {
+                return "Homo sapiens";
+            });
+            
+            // Fix the ensembl version column
+            index = getColumnIndex(annotationContent, ensemblColumn, CSV);
+            annotationContent = renameColumn(annotationContent, index, "Ensembl version", CSV);
+            annotationContent = process(annotationContent, index, CSV, content -> {
+                return content.replace("Ensembl version ", "");
+            });
+            
+            // Delete columns with unnecessary information
+            for (String rem : removeColumns) {
+                index = getColumnIndex(annotationContent, rem, CSV);
+                annotationContent = removeColumn(annotationContent, index, CSV);
+            }
+            
+            String cName = "Term Source 2 REF";
+            index = getColumnIndex(annotationContent, cName, CSV);
+            annotationContent = renameColumn(annotationContent, index, "Term Source REF", CSV);
+            
+            cName = "Term Source 2 Description";
+            index = getColumnIndex(annotationContent, cName, CSV);
+            annotationContent = renameColumn(annotationContent, index, "Characteristics [Organism Part]", CSV);
+
+            cName = "Term Source 2 Accession";
+            index = getColumnIndex(annotationContent, cName, CSV);
+            annotationContent = renameColumn(annotationContent, index, "Characteristics [Organism Part] Accession", CSV);
+            
+            // swap accNo and desc columns
+            annotationContent = swapColumns(annotationContent, index, index+1, CSV);
+            
+            cName = "Term Source 3 Description";
+            index = getColumnIndex(annotationContent, cName, CSV);
+            annotationContent = renameColumn(annotationContent, index, "Characteristics [Pathology]", CSV);
+            
+            cName = "Term Source 3 Accession";
+            index = getColumnIndex(annotationContent, cName, CSV);
+            annotationContent = renameColumn(annotationContent, index, "Characteristics [Pathology] Accession", CSV);
+            
+            // swap accNo and desc columns
+            annotationContent = swapColumns(annotationContent, index, index+1, CSV);
+            
+            // Split columns which have multiple entries
+            for (String split : splitColumns) {
+                index = getColumnIndex(annotationContent, split, CSV);
+                annotationContent = splitColumn(annotationContent, index, CSV, ';');
+            }
+            
+            // Finally save the annotion.csv file
+            writeFile(annotationFile, annotationContent);
+        }
     }
     
     final static String path1 = "/uod/idr/filesets/idr0043-uhlen-humanproteinatlas/20180825-ftp";
@@ -137,7 +181,7 @@ public class IDR0043Workflow {
     final static String path2Files = "64555, 64556, 64557, 64571, 64576, 64607, 64613, 64621, 64623, 64637, 64670, 64677, 64678, 64686, 64687, 64696, 64702, 64708, 64713, 64734, 64736, 64740, 64755, 64763, 64783, 64784, 64788, 64792, 64821, 64826, 64829, 64835, 64836, 64843, 64845, 64853, 64854, 64856, 64861, 64872, 64874, 64885, 64887, 64892, 64930, 64939, 64946, 64962, 64970, 64978, 64996, 65008, 65016, 65019, 65037, 65044, 65048, 65051, 65052, 65062, 65064, 65092, 65126, 65160, 65166, 65197, 65208, 65214, 65219, 65232, 65235, 65246, 65254, 65257, 65273, 65285, 65287, 65294, 65296, 65302, 65309, 65311, 65317, 65320, 65327, 65331, 65335, 65337, 65343, 65385, 65409, 65419, 65424, 65425, 65436, 65474, 65482, 65484, 65505, 65523, 65526, 65539, 65540, 65576, 65586, 65599, 65600, 65634, 65649, 65661, 65682, 65685, 65686, 65703, 65706, 65711, 65713, 65718, 65720, 65721, 65730, 65734, 65739, 65743, 65753, 65758, 65764, 65766, 65831, 65858, 65890, 65931, 65937, 65946, 65947, 65955, 65958, 65961, 65983, 65996, 66010, 66026, 66029, 66037, 66042, 66046, 66053, 66058, 66060, 66070, 66083, 66098, 66115, 66120, 66142, 66173, 66185, 66197, 66214, 66216, 66229, 66235, 66238, 66240, 66271, 66283, 66290, 66293, 66302, 66315, 66326, 66327, 66349, 66352, 66383, 66463, 66464, 66468, 66478, 66482, 66498, 66509, 66520, 66538, 66548, 66571, 66648, 66695, 66697, 66707, 66710, 66715, 66718, 66721, 66754, 66762, 66771, 66774, 66780, 66782, 66784, 66790, 66832, 66834, 66836, 66838, 66841, 66861, 66872, 66888, 66890, 66900, 66902, 66907, 66920, 66927, 66953, 66957, 66996, 67007, 67015, 67026, 67031, 67045, 67046, 67063, 67097, 67102, 67103, 67114, 67117, 67140, 67151, 67152, 67155, 67160, 67189, 67196, 67203, 67222, 67225, 67230, 67239, 67245, 67249, 67250, 67252, 67258, 67290, 67305, 67322, 67326, 67333, 67336, 67388, 67395, 67407, 67418, 67423, 67433, 67440, 67448, 67455, 67493, 67500, 67503, 67533, 67536, 67538, 67540, 67546, 67561, 67584, 67595, 67601, 67602, 67632, 67639, 67643, 67657, 67671, 67682, 67683, 67685, 67690, 67711, 67734, 67740, 67751, 67758, 67767, 67811, 67812, 67817, 67824, 67827, 67850, 67855, 67875, 67878, 67880, 67881, 67889, 67891, 67895, 67906, 67925, 67946, 67947, 67952, 67966, 67970, 67971, 67972, 67973, 67983, 68009, 68012, 68024, 68049, 68064, 68079, 68082, 68093, 68099, 68106, 68114, 68119, 68122, 68125, 68172, 68175, 68176, 68177, 68178, 68179, 68180, 68181, 68182, 68183, 68184, 68185, 68186, 68187, 68188, 68189, 68190, 68191, 68192, 68193, 68194, 68195, 68196, 68197, 68198, 68199, 68200, 68201, 68203, 68204, 68205, 68206, 68207, 68208, 68209, 68210, 68211, 68212, 68213, 68214, 68215, 68216, 68217, 68218, 68219, 68220, 68221, 68222, 68223, 68224, 68225, 68226, 68227, 68228, 68229, 68230, 68231, 68232, 68233, 68234, 68235, 68236, 68237, 68239, 68240, 68241, 68242, 68243, 68244, 68245, 68246, 68247, 68248, 68249, 68250, 68251, 68252, 68253, 68255, 68266, 68288, 68304, 68322, 68379, 68384, 68399, 68416, 68417, 68418, 68429, 68447, 68461, 68473, 68479, 68501, 68520, 68525, 68560, 68563, 68608, 68609, 68647, 68660, 68664, 68695, 68717, 68727, 68764, 68768, 68771, 68772, 68786, 68787, 68790, 68792, 68795, 68812, 68838, 68843, 68864, 68898, 68925, 68930, 68982, 68992, 69003, 69022, 69037, 69039, 69045, 69056, 69064, 69081, 69088, 69094, 69096, 69097, 69102, 69107, 69116, 69119, 69130, 69136, 69146, 69165, 69176, 69190, 69248, 69278, 69290, 69291, 69297, 69311, 69318, 69319, 69320, 69321, 69328, 69333, 69341, 69344, 69359, 69378, 69386, 69392, 69394, 69395, 69396, 69399, 69400 ";
     
     /**
-     * Look up the abs path, only relevant for hpa_run_02
+     * Look up the abs path, only relevant for hpa_run_01
      * @param file
      * @return
      */

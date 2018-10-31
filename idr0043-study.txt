@@ -3,7 +3,7 @@
 				
 Comment[IDR Study Accession]	idr0043			
 Study Title	Tissue-based map of the human proteome			
-Study Type	Protein localization			
+Study Type	protein localization			
 Study Type Term Source REF				
 Study Type Term Accession				
 Study Description	Sequencing the human genome gave new insights into human biology and disease. However, the ultimate goal is to understand the dynamic expression of each of the approximately 20,000 protein-coding genes and the function of each protein. Uhlen et al. now present a map of protein expression across 32 human tissues. They not only measured expression at an RNA level, but also used antibody profiling to precisely localize the corresponding proteins.			
@@ -19,7 +19,7 @@ Study PubMed ID	25613900
 Study Publication Title	Tissue-based map of the human proteome.			
 Study Author List	Uhlen M et al			
 Study PMC ID				
-Study DOI	http://dx.doi.org/10.1126/science.1260419			
+Study DOI	https://dx.doi.org/10.1126/science.1260419			
 				
 # Study Contacts				
 Study Person Last Name	HPAIT			
@@ -32,7 +32,7 @@ Study Person Roles	submitter
 Study License	CC BY-SA 3.0			
 Study License URL	https://v18.proteinatlas.org/about/licence			
 Study Data Publisher	University of Dundee			
-Study Data DOI	http://dx.doi.org/NOT_REQUESTED_YET			
+Study Data DOI				
 				
 Term Source Name	NCBITaxon	EFO	CMPO	FBbi
 Term Source URI	http://purl.obolibrary.org/obo/	http://www.ebi.ac.uk/efo/	http://www.ebi.ac.uk/cmpo/	http://purl.obolibrary.org/obo/
@@ -43,10 +43,10 @@ Term Source URI	http://purl.obolibrary.org/obo/	http://www.ebi.ac.uk/efo/	http:/
 				
 Experiment Number	1			
 Comment[IDR Experiment Name]	idr0043-uhlen-humanproteinatlas/experimentA			
-Experiment Description				
+Experiment Description	Mapping of protein expression across all major tissues and organs in the human body			
 Experiment Size	5D Images: 	Average Image Dimension (XYZCT):	Total Tb: 	# fill in any values you know
-Experiment Example Images				
-Experiment Imaging Method	Bright-field microscopy			
+Experiment Example Images	https://idr.openmicroscopy.org/webclient/?show=image-3977054			
+Experiment Imaging Method	bright-field microscopy			
 Experiment Imaging Method Term Source REF	Fbbi			
 Experiment Imaging Method Term Accession	Fbbi_00000243	http://www.ebi.ac.uk/ols/ontologies/fbbi		
 Experiment Comments				

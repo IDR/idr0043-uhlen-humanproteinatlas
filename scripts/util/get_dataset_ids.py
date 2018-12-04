@@ -7,7 +7,7 @@ annotation.csv and prints them to std out.
 '''
 
 # Files
-annoFile = "../experimentA/hpa_run_01/idr0043-experimentA-annotation.csv"
+annoFile = "../../experimentA/hpa_run_01/idr0043-experimentA-annotation.csv"
 
 # OMERO credentials
 user = "root"

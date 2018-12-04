@@ -20,7 +20,6 @@ $omero login
 # Create a list of dataset names
 datasets=`cat $filePaths | cut -f1 | cut -d ':' -f3 | uniq`
 
-
 projectId=`$omero hql --ids-only --limit 1 --style plain "select p from Project p where p.name='$projectName'"`
 if [ -z $projectId ]; then
   echo "Project doesn't exist"

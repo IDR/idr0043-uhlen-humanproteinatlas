@@ -23,6 +23,8 @@ package annotations;
 
 import static annotations.CSVTools.*;
 
+import java.util.HashMap;
+
 /**
  * Generates the filePaths.tsv and annotation.csv from the provided assays.txt file.
  * 
@@ -76,13 +78,38 @@ public class IDR0043Workflow {
             int di = getColumnIndex(input, datasetNameColumn, TSV);
             String filePathsContent = extractColumns(input, new int[]{di, fi}, TSV);
             
+            di = 0;
+            fi = 1;
+            // This is just a sanity check to make sure each image directory == exactly one dataset
+            HashMap<String, String> datasetDirectoryMap = new HashMap<String, String>();
+            String[] parts = filePathsContent.split("\n");
+            for (int i=1; i<parts.length; i++) {
+                String[] tmp = BasicCSVUtils.split(parts[i], TSV);
+                String dir = tmp[fi].substring(0, tmp[fi].indexOf('/'));
+                if (datasetDirectoryMap.containsKey(tmp[0]) &&
+                        !datasetDirectoryMap.get(tmp[di]).equals(dir)) {
+                    System.err.println("Line "+i+" Unexpected image directory name. Is: "+
+                        dir+", Expected: "+datasetDirectoryMap.get(tmp[di]));
+                    System.exit(1);
+                } else {
+                    datasetDirectoryMap.put(tmp[di], dir);
+                }
+                i++;
+            }
+            
+            // If above sanity check passes, remove the image file part of the 
+            // path so there only one line per dataset/directory
+            filePathsContent = process(filePathsContent, fi, TSV, content -> {
+                return content.substring(0, content.indexOf('/'));
+            });
+            
             // prefix Dataset:name: for the dataset name column
-            filePathsContent = process(filePathsContent, 0, TSV, content -> {
+            filePathsContent = process(filePathsContent, di, TSV, content -> {
                 return "Dataset:name:"+content;
             });
             
             // Prefix the (relative) image file paths with the /uod/idr/filesets/... path to get the absolute path
-            filePathsContent = prefixColumn(filePathsContent, 1, TSV, path+"/", null);
+            filePathsContent = prefixColumn(filePathsContent, fi, TSV, path+"/", null);
             
             // remove the header line
             filePathsContent = removeRow(filePathsContent, 0);

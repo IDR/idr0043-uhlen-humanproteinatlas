@@ -6,12 +6,14 @@ This script simply gets the IDs of the datasets referenced in the
 annotation.csv and prints them to std out.
 '''
 
+import sys
 # Files
-annoFile = "../../experimentA/hpa_run_01/idr0043-experimentA-annotation.csv"
+annoFile = sys.argv[1]
+# annoFile = "../../experimentA/hpa_run_02/idr0043-experimentA-annotation.csv.gz"
 
 # OMERO credentials
-user = "root"
-password = "xxx"
+user = "public"
+password = "public"
 host = "localhost"
 
 # HPA Project id
@@ -30,4 +32,4 @@ conn.connect()
 project = conn.getObject("Project", projectId)
 for ds in project.listChildren():
     if ds.name in datasets:
-        print ds.id
+        print 'Dataset:%s' % ds.id

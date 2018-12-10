@@ -9,7 +9,6 @@ annotation.csv and prints them to std out.
 import sys
 # Files
 annoFile = sys.argv[1]
-# annoFile = "../../experimentA/hpa_run_02/idr0043-experimentA-annotation.csv.gz"
 
 # OMERO credentials
 user = "public"

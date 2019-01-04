@@ -39,7 +39,7 @@ public class IDR0043Workflow {
         // Parameters
         final String basedir = "/Users/dlindner/Repositories";
         
-        final String assayFile = basedir+"/idr0043-uhlen-humanproteinatlas/experimentA/hpa_run_02/assays.tsv";
+        final String assayFile = basedir+"/idr0043-uhlen-humanproteinatlas/experimentA/hpa_run_03/assays.tsv";
         final String fileNameColumn = "Image File";
         final String filePathColumn = "Comment [Image File Path]";
         final String datasetNameColumn = "Dataset Name";
@@ -51,10 +51,10 @@ public class IDR0043Workflow {
         
         final String[] splitColumns = {"Comment [Gene Identifier]", "Comment [Gene Symbol]"};
         
-        final String path = "/uod/idr/filesets/idr0043-uhlen-humanproteinatlas/20181112-ftp";
+        final String path = "/uod/idr/filesets/idr0043-uhlen-humanproteinatlas/20181129-ftp";
         
-        final String filePathsFile = basedir+"/idr0043-uhlen-humanproteinatlas/experimentA/hpa_run_02/idr0043-experimentA-filePaths.tsv";
-        final String annotationFile = basedir+"/idr0043-uhlen-humanproteinatlas/experimentA/hpa_run_02/idr0043-experimentA-annotation.csv";
+        final String filePathsFile = basedir+"/idr0043-uhlen-humanproteinatlas/experimentA/hpa_run_03/idr0043-experimentA-filePaths.tsv";
+        final String annotationFile = basedir+"/idr0043-uhlen-humanproteinatlas/experimentA/hpa_run_03/idr0043-experimentA-annotation.csv";
 
         final boolean genFilepaths = true;
         

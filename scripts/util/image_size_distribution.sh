@@ -1,15 +1,22 @@
 #!/bin/bash
-#
-# Runs through all directories with numercial directory name
-# and checks the image dimensions of the *.tif files.
-#
-# Prints out a CSV with the different dimensions and the number of
-# images with these dimensions
-# 
-# Prints out progress information on stderr
-#
-# Needs one argument: The directory where the tif directories are, e. g. run it with
-# ./image_size_distribution.sh /uod/idr/filesets/idr0043-uhlen-humanproteinatlas/20180624-ftp > output.csv
+
+if [ "$#" -ne 1 ]
+then
+  echo "
+Runs through all directories with numercial directory name
+and checks the image dimensions of the *.tif files.
+
+Prints out a CSV with the different dimensions and the number of
+images with these dimensions
+
+Prints out progress information on stderr
+
+Needs one argument: The directory where the tif directories are, e. g. run it with
+
+./image_size_distribution.sh /uod/idr/filesets/idr0043-uhlen-humanproteinatlas/20180624-ftp > output.csv
+"
+  exit 1
+fi
 
 cd $1
 

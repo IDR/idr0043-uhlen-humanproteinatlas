@@ -31,6 +31,7 @@ Study Person Roles	submitter
 # Study License and Data DOI				
 Study License	CC BY-SA 3.0			
 Study License URL	https://v18.proteinatlas.org/about/licence			
+Study Copyright	Uhlen et al
 Study Data Publisher	University of Dundee			
 Study Data DOI				
 				

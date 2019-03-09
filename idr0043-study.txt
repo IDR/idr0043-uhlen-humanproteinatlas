@@ -19,7 +19,7 @@ Study PubMed ID	25613900
 Study Publication Title	Tissue-based map of the human proteome.			
 Study Author List	Uhlen M et al			
 Study PMC ID				
-Study DOI	https://dx.doi.org/10.1126/science.1260419			
+Study DOI	https://doi.org/10.1126/science.1260419			
 				
 # Study Contacts				
 Study Person Last Name	HPAIT			
@@ -31,6 +31,7 @@ Study Person Roles	submitter
 # Study License and Data DOI				
 Study License	CC BY-SA 3.0			
 Study License URL	https://v18.proteinatlas.org/about/licence			
+Study Copyright	Uhlen et al
 Study Data Publisher	University of Dundee			
 Study Data DOI				
 				

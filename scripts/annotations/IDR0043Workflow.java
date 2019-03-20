@@ -37,9 +37,19 @@ public class IDR0043Workflow {
         
         // ====================
         // Parameters
-        final String basedir = "/Users/dlindner/Repositories";
         
-        final String assayFile = basedir+"/idr0043-uhlen-humanproteinatlas/experimentA/hpa_run_03/assays.tsv";
+        // Path of the idr0043 project directory on the local file system:
+        final String basedir = "/Users/dlindner/Repositories/idr0043-uhlen-humanproteinatlas";
+        
+        // Name of the current batch:
+        final String run = "hpa_run_04";
+        
+        // Name of the directory containing the images:
+        final String ftpDir = "20190109-ftp";
+        // =====================
+       
+        // Shouldn't have to change anything below this line (if the assays.txt format hasn't changed)
+        final String assayFile = basedir+"/experimentA/"+run+"/assays.tsv";
         final String fileNameColumn = "Image File";
         final String filePathColumn = "Comment [Image File Path]";
         final String datasetNameColumn = "Dataset Name";
@@ -51,10 +61,10 @@ public class IDR0043Workflow {
         
         final String[] splitColumns = {"Comment [Gene Identifier]", "Comment [Gene Symbol]"};
         
-        final String path = "/uod/idr/filesets/idr0043-uhlen-humanproteinatlas/20181129-ftp";
+        final String path = "/uod/idr/filesets/idr0043-uhlen-humanproteinatlas/"+ftpDir;
         
-        final String filePathsFile = basedir+"/idr0043-uhlen-humanproteinatlas/experimentA/hpa_run_03/idr0043-experimentA-filePaths.tsv";
-        final String annotationFile = basedir+"/idr0043-uhlen-humanproteinatlas/experimentA/hpa_run_03/idr0043-experimentA-annotation.csv";
+        final String filePathsFile = basedir+"/experimentA/"+run+"/idr0043-experimentA-filePaths.tsv";
+        final String annotationFile = basedir+"/experimentA/"+run+"/idr0043-experimentA-annotation.csv";
 
         final boolean genFilepaths = true;
         

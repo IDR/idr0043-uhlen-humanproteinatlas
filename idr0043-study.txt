@@ -4,8 +4,8 @@
 Comment[IDR Study Accession]	idr0043			
 Study Title	Tissue-based map of the human proteome			
 Study Type	protein localization			
-Study Type Term Source REF				
-Study Type Term Accession				
+Study Type Term Source REF	EFO				
+Study Type Term Accession	GO:0008104					
 Study Description	Sequencing the human genome gave new insights into human biology and disease. However, the ultimate goal is to understand the dynamic expression of each of the approximately 20,000 protein-coding genes and the function of each protein. Uhlen et al. now present a map of protein expression across 32 human tissues. They not only measured expression at an RNA level, but also used antibody profiling to precisely localize the corresponding proteins.			
 Study Organism	Homo sapiens			
 Study Organism Term Source REF	NCBITaxon			
@@ -43,7 +43,8 @@ Term Source URI	http://purl.obolibrary.org/obo/	http://www.ebi.ac.uk/efo/	http:/
 # Experiment Section containing all information relative to each experiment in the study including materials used, protocols names and description, phenotype names and description. For multiple experiments this section should be repeated.  Copy and paste the whole section below and fill out for the next experiment				
 				
 Experiment Number	1			
-Comment[IDR Experiment Name]	idr0043-uhlen-humanproteinatlas/experimentA			
+Comment[IDR Experiment Name]	idr0043-uhlen-humanproteinatlas/experimentA	
+Experiment Sample Type	tissue
 Experiment Description	Mapping of protein expression across all major tissues and organs in the human body			
 Experiment Size	5D Images: 	Average Image Dimension (XYZCT):	Total Tb: 	# fill in any values you know
 Experiment Example Images	https://idr.openmicroscopy.org/webclient/?show=image-3977054			

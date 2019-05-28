@@ -12,7 +12,7 @@ Study Organism Term Source REF	NCBITaxon
 Study Organism Term Accession	9606			
 Study Experiments Number	1			
 Study External URL	https://www.proteinatlas.org			
-Study Public Release Date				
+Study Public Release Date	2018-11-01				
 				
 # Study Publication				
 Study PubMed ID	25613900			

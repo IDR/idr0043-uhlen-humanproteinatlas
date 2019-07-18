@@ -16,8 +16,8 @@ Study Public Release Date	2018-11-01
 				
 # Study Publication				
 Study PubMed ID	25613900			
-Study Publication Title	Tissue-based map of the human proteome.			
-Study Author List	Uhlen M et al			
+Study Publication Title	Proteomics. Tissue-based map of the human proteome.			
+Study Author List	Uhlén M, Fagerberg L, Hallström BM, Lindskog C, Oksvold P, Mardinoglu A, Sivertsson Å, Kampf C, Sjöstedt E, Asplund A, Olsson I, Edlund K, Lundberg E, Navani S, Szigyarto CA, Odeberg J, Djureinovic D, Takanen JO, Hober S, Alm T, Edqvist PH, Berling H, Tegel H, Mulder J, Rockberg J, Nilsson P, Schwenk JM, Hamsten M, von Feilitzen K, Forsberg M, Persson L, Johansson F, Zwahlen M, von Heijne G, Nielsen J, Pontén F			
 Study PMC ID				
 Study DOI	https://doi.org/10.1126/science.1260419			
 				

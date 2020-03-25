@@ -30,14 +30,14 @@ for term in df[ORGANISM_PART_COLUMN]:
 
 directory = os.path.dirname(args.csv_file)
 
-print "Found %g unique SNOMED codes under %s" % (
-    len(snomed_codes), SNOMED_COLUMN)
+print("Found %g unique SNOMED codes under %s" % (
+    len(snomed_codes), SNOMED_COLUMN))
 with open(os.path.join(directory, 'organism_parts.tsv'), 'w') as f:
     f.write('SNOMED Accession\tTerm\n')
     for code in snomed_codes:
         f.write('%s\t\n' % code)
 
-print "Found %g unique terms under %s" % (len(terms), ORGANISM_PART_COLUMN)
+print("Found %g unique terms under %s" % (len(terms), ORGANISM_PART_COLUMN))
 with open(os.path.join(directory, 'diseases.tsv'), 'w') as f:
     f.write('SNOMED Accession\tTerm\n')
     for term in terms:

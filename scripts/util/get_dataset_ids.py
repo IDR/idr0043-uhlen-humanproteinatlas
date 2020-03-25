@@ -4,7 +4,7 @@ import pandas
 import sys
 
 if len(sys.argv) < 2:
-    print """
+    print("""
 This script simply gets the IDs of the datasets referenced in the
 annotation.csv and prints them to std out, e.g.
 Dataset:1
@@ -16,7 +16,7 @@ python get_dataset_ids.py annotations.csv [-c]
 
 -c  Concatenate image ids instead of outputting them line by line (will
     print out "Dataset:1,2,3,...") (must be last argument)
-"""
+""")
     exit(1)
 
 annoFile = sys.argv[1]
@@ -52,7 +52,7 @@ for ds in project.listChildren():
         if concat:
             result += str(ds.id)+","
         else:
-            print 'Dataset:%s' % ds.id
+            print('Dataset:%s' % ds.id)
 
 if concat:
-    print result[:-1]
+    print(result[:-1])

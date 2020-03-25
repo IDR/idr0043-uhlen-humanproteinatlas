@@ -6,7 +6,7 @@ import os
 
 
 def printusage():
-    print ('''
+    print('''
 This script deletes the images specified by the 'ID' column in a CSV file.
 
 Usage: python delete_images.py [path to images.csv]

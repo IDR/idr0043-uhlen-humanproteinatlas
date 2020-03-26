@@ -6,7 +6,7 @@ import os
 
 
 def printusage():
-    print ('''
+    print('''
 This script checks for missing annotations and prints the dataset name,
 image name and image id of images which don't have any annotations to stdout.
 Progress information is printed to stderr.

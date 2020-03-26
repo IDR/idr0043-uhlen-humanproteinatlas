@@ -74,9 +74,9 @@ with open(imageIdsFile) as reader:
         img = conn.getObject("Image", line)
         try:
             dataset = datasetByImageName[img.name]
-        except KeyError, e:
+        except KeyError:
             dataset = None
-            print "%s not found, skipping." % img.name
+            print("%s not found, skipping." % img.name)
 
         if dataset is not None:
             link = omero.model.DatasetImageLinkI()
@@ -87,9 +87,9 @@ with open(imageIdsFile) as reader:
             try:
                 conn.getUpdateService().saveAndReturnArray(links)
                 done += len(links)
-                print "%i images linked." % done
+                print("%i images linked." % done)
             except Exception:
-                print "Error. Skipping some."
+                print("Error. Skipping some.")
             finally:
                 links = []
         line = reader.readline()
@@ -98,6 +98,6 @@ if len(links) > 0:
     try:
         conn.getUpdateService().saveAndReturnArray(links)
         done += len(links)
-        print "%i images linked." % done
+        print("%i images linked." % done)
     except Exception:
-        print "Error. Skipping some."
+        print("Error. Skipping some.")

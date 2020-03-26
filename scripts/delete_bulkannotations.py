@@ -32,4 +32,4 @@ project = conn.getObject("Project", projectId)
 for ds in project.listChildren():
     if ds.name in datasets:
         ds.removeAnnotations("openmicroscopy.org/omero/bulk_annotations")
-        print "Deleted bulk_annotations attachment for %s" % ds.name
+        print("Deleted bulk_annotations attachment for %s" % ds.name)

@@ -378,7 +378,7 @@ columns:
           omitempty: no
         - name: Antibody identifier
           clientname: Antibody Identifier URL
-          clientvalue: http://v18.proteinatlas.org/search/{{ value|urlencode }}
+          clientvalue: https://v19.proteinatlas.org/search/{{ value|urlencode }}
           include: yes
 
   - group:

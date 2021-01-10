@@ -26,7 +26,7 @@ for line in file.readlines():
      fname = line.split('/')[6].strip()
      ds = datasets[dry]
      path = "{}/{}/{}".format(new_path,dry,fname)
-     out_file.write("Dataset:{}\t{}\n".format(ds, path))
+     out_file.write("Dataset:name:{}\t{}\n".format(ds, path))
 file.close()
 
 out_file.close()

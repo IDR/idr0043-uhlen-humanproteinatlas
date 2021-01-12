@@ -7,8 +7,8 @@ skip:
   - "checksum"
 logprefix: "logs/"
 output: "yaml"
-parallel_upload: "10"
-parallel_fileset: "10"
+parallel_upload: "3"
+parallel_fileset: "3"
 
 columns:
     - target

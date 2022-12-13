@@ -39,17 +39,17 @@ public class IDR0043Workflow {
         // Parameters
         
         // Path of the idr0043 project directory on the local file system:
-        final String basedir = "/Users/dlindner/Repositories/idr0043-uhlen-humanproteinatlas";
+        final String basedir = "/Users/dom/idr/idr0043-uhlen-humanproteinatlas";
         
         // Name of the current batch:
-        final String run = "hpa_run_04";
+        final String run = "hpa_run_12";
         
         // Name of the directory containing the images:
-        final String ftpDir = "20190109-ftp";
+        final String ftpDir = "20220128-ftp";
         // =====================
        
         // Shouldn't have to change anything below this line (if the assays.txt format hasn't changed)
-        final String assayFile = basedir+"/experimentA/"+run+"/assays.tsv";
+        final String assayFile = basedir+"/experimentA/"+run+"/assays.csv";
         final String fileNameColumn = "Image File";
         final String filePathColumn = "Comment [Image File Path]";
         final String datasetNameColumn = "Dataset Name";
@@ -57,7 +57,7 @@ public class IDR0043Workflow {
         final String organismColumn = "Characteristics [Organism]";
         final String ensemblColumn = "Analysis Gene Annotation Build";
         
-        final String[] removeColumns = {"Term Source 1 REF", "Comment [Image File Type]", "Characteristics [Organism Part]"};
+        final String[] removeColumns = {"Term Source 1 REF", "Comment [Image File Type]"};
         
         final String[] splitColumns = {"Comment [Gene Identifier]", "Comment [Gene Symbol]"};
         
@@ -76,8 +76,9 @@ public class IDR0043Workflow {
         final char CSV = ',';
         
         String input = readFile(assayFile);
-        
-        input = removeEmptyColumns(input, TSV);
+
+        // There's something wrong, remove the empty columns by hand for now
+        //input = removeEmptyColumns(input, TSV);
         
         /**
          *  create filePath.tsv
@@ -161,13 +162,14 @@ public class IDR0043Workflow {
             annotationContent = process(annotationContent, index, CSV, content -> {
                 return content.replace("Ensembl version ", "");
             });
-            
+
+            // There's something wrong, remove the empty columns by hand for now
             // Delete columns with unnecessary information
-            for (String rem : removeColumns) {
-                index = getColumnIndex(annotationContent, rem, CSV);
-                annotationContent = removeColumn(annotationContent, index, CSV);
-            }
-            
+//            for (String rem : removeColumns) {
+//                index = getColumnIndex(annotationContent, rem, CSV);
+//                annotationContent = removeColumn(annotationContent, index, CSV);
+//            }
+//
             String cName = "Term Source 2 REF";
             index = getColumnIndex(annotationContent, cName, CSV);
             annotationContent = renameColumn(annotationContent, index, "Term Source REF", CSV);

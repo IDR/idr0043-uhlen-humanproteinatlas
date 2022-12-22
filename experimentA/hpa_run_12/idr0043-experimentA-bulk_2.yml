@@ -1,4 +1,4 @@
 ---
 include: "../bulk.yml"
 readers: "../readers.txt"
-path: "idr0043-experimentA-filePaths_1.tsv"
+path: "idr0043-experimentA-filePaths_2.tsv"

@@ -85,7 +85,7 @@ columns:
   - group:
       namespace: openmicroscopy.org/mapr/gene/supplementary
       columns:
-        - name: Ensembl version
+        - name: Analysis Gene Annotation Build
           clientname: Ensembl version
           include: yes
 

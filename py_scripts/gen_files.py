@@ -13,6 +13,13 @@ IMAGE_COL = "Image File"
 
 
 def gen_filepaths(path, run_dir, enc):
+    """
+    Generate the idr0043-experimentA-filePaths.tsv
+    :param path: Path to the assays.txt
+    :param run_dir: Directory of the batch (e.g. 20220128-ftp)
+    :param enc: Encoding of the assays.txt file
+    :return: Nothing
+    """
     print("Creating idr0043-experimentA-filePaths.tsv...")
     with open_file(path, enc) as infile:
         with open("idr0043-experimentA-filePaths.tsv", "w") as outfile:
@@ -31,7 +38,16 @@ def gen_filepaths(path, run_dir, enc):
 
 
 def gen_annotations(path, enc):
+    """
+    Generate the idr0043-experimentA-annotation.csv
+    :param path: The path to the assays.txt
+    :param enc: The encoding of the assays.txt
+    :return: Nothing
+    """
     print("Creating idr0043-experimentA-annotation.csv...")
+
+    # Get the maximum number of gene_ids/symbols
+    # (These columns have to be split into one per column)
     n_genes = 0
     with open_file(path, enc) as infile:
         reader = csv.DictReader(infile, delimiter="\t")
@@ -43,6 +59,7 @@ def gen_annotations(path, enc):
                 return
             n_genes = max(n_genes, len(gis))
 
+    # Check for empty columns (they will be excluded)
     empty_cols = []
     with open_file(path, enc) as infile:
         reader = csv.DictReader(infile, delimiter="\t")
@@ -55,7 +72,7 @@ def gen_annotations(path, enc):
                 if row[k] and k in empty_cols:
                     empty_cols.remove(k)
 
-
+    # Assemble the headers for the annotation.csv
     headers = ["Dataset name", "Image name"]
     excludes = [GENEID_COL, GENESYMBOL_COL, IMAGE_COL]
     excludes.extend(empty_cols)
@@ -69,7 +86,7 @@ def gen_annotations(path, enc):
         headers.append(f"Comment [Gene Identifier] {i+1}")
         headers.append(f"Comment [Gene Symbol] {i+1}")
 
-
+    # Process the assays.txt and generate the annotations.csv from it
     with open_file(path, enc) as infile:
         with open("idr0043-experimentA-annotation.csv", "w") as outfile:
             reader = csv.DictReader(infile, delimiter="\t")
@@ -98,6 +115,12 @@ def gen_annotations(path, enc):
 
 
 def open_file(path, e):
+    """
+    Open either an assays.txt or an assays.txt.gz
+    :param path: The path to the assays
+    :param e: The encoding
+    :return: The open file
+    """
     if path.endswith(".gz"):
         return gzip.open(path, mode='rt', encoding=e)
     else:

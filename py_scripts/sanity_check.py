@@ -17,7 +17,7 @@ PROBLEM_NO_BA = "No bulkannotations"
 PROBLEM_MORE_BA = "More than one bulkannotations"
 PROBLEM_NO_A = "No map annotations"
 PROBLEM_NO_IMAGE = "Image missing"
-
+PROBLEM_NO_DATASET = "Dataset missing"
 
 # All problems encountered will be stored here:
 problems = {}
@@ -27,17 +27,27 @@ def get_n_datasets(project):
     """
     Get the number of all imported datasets
     :param project:
-    :return:
+    :return: See above
     """
     return len(list(project.listChildren()))
 
 
 def get_dataset(project):
+    """
+    Generator for the datasets of a project
+    :param project: The project
+    :return: See above
+    """
     for dataset in project.listChildren():
         yield dataset
 
 
 def get_image(dataset):
+    """
+    Generator for the images of a dataset
+    :param project: The dataset
+    :return: See above
+    """
     for image in dataset.listChildren():
         yield image
 
@@ -55,9 +65,11 @@ def parse_assays(repo_path):
     """
     Get all dataset and images names from the assay files
     :param repo_path: The path to the local repository
-    :return: Image map (key: Dataset name; value: List of image names)
+    :return: Tuple (Image map (key: Dataset name; value: List of image names),
+             Batch map (key: Dataset name; value: batch (hpa_run_xx))
     """
     image_map = {}
+    batch_map = {}
     for entry in os.walk(f"{repo_path}/experimentA"):
         if "hpa_run" in entry[0]:
             found = False
@@ -66,9 +78,11 @@ def parse_assays(repo_path):
                     found = True
                     assay_map = read_assay(f"{entry[0]}/{file}")
                     image_map.update(assay_map)
+                    for ds in assay_map.keys():
+                        batch_map[ds] = entry[0]
             if not found:
                 print(f"WARNING: No assays.txt for {entry[0]}!", file=sys.stderr)
-    return image_map
+    return (image_map, batch_map)
 
 
 def read_assay(path):
@@ -123,21 +137,33 @@ def check_annotations(dataset, check_images):
             problems[PROBLEM_NO_A].append(f"{dataset.getId()} | {dataset.getName()} / {image.getId()} | {image.getName()}")
 
 
-def check_images(dataset, expected_images):
+def check_images(dataset_name, expected_images, batch_map):
     """
     Check that the dataset contains all expected images
-    :param dataset: The dataset name
+    :param dataset_name: The dataset name
     :param expected_images: The list of expected image names
+    :param batch_map: Dictionary mapping dataset names to batch names
     :return: None
     """
-    dataset = conn.getObject('Dataset', attributes={'name': dataset})
+    dataset = conn.getObject('Dataset', attributes={'name': dataset_name})
+
+    batch = "NA"
+    if dataset_name in batch_map:
+        batch = batch_map[dataset_name]
+
+    if dataset is None:
+        print(f"WARNING: Could not load dataset {dataset_name} ({batch})!", file=sys.stderr)
+        if PROBLEM_NO_DATASET not in problems:
+            problems[PROBLEM_NO_DATASET] = []
+        problems[PROBLEM_NO_DATASET].append(dataset_name)
+        return
     images= [img.getName() for img in get_image(dataset)]
     for image in expected_images:
         if image not in images:
-            print(f"ERROR: Image {dataset} / {image} not imported!", file=sys.stderr)
+            print(f"ERROR: Image {dataset_name} / {image} not imported! ({batch})", file=sys.stderr)
         if PROBLEM_NO_IMAGE not in problems:
             problems[PROBLEM_NO_IMAGE] = []
-        problems[PROBLEM_NO_IMAGE].append(f"{dataset} / {image}")
+        problems[PROBLEM_NO_IMAGE].append(f"{dataset_name} / {image}")
 
 
 def main(conn, args):
@@ -147,24 +173,17 @@ def main(conn, args):
     if args.b or args.m:
         c = 0
         for dataset in get_dataset(project):
-            t_start = time.time()
             c += 1
-            print(f"Checking {dataset.getName()} ({c}/{total})", file=sys.stderr)
+            print(f"Checking annotations for {dataset.getName()} ({c}/{total} done)", file=sys.stderr)
             check_annotations(dataset, args.m)
-            t_diff = time.time() - t_start
-            t_eta = round((total - c) * t_diff)
-            print(f"ETA: {t_eta}s", file=sys.stderr)
 
     if args.a:
         c = 0
-        for dataset, images in parse_assays(args.repo).items():
-            t_start = time.time()
+        image_map, batch_map = parse_assays(args.repo)
+        for dataset, images in image_map.items():
             c += 1
-            print(f"Checking {dataset} ({c}/{total})", file=sys.stderr)
-            check_images(dataset, images)
-            t_diff = time.time() - t_start
-            t_eta = round((total - c) * t_diff)
-            print(f"ETA: {t_eta}s", file=sys.stderr)
+            print(f"Checking imports {dataset} ({batch_map[dataset]}) ({c}/{len(image_map)} done)", file=sys.stderr)
+            check_images(dataset, images, batch_map)
 
     if len(problems) > 0:
         print("\nProblems detected:\n")

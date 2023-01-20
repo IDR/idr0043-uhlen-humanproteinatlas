@@ -12,7 +12,10 @@ PREFIX=${PREFIX:-}
 
 for file in $PREFIX*.tar; do
     echo "Extracting $file"
-    cat md5sum.txt | grep " $file" | md5sum -c
+    if [ -f md5sum.txt ]
+    then
+        cat md5sum.txt | grep " $file" | md5sum -c
+    fi
     tar xvf ${file}
     rm $file
     for f in ${file%.*}/*.gz; do

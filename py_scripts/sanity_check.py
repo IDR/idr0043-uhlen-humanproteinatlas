@@ -1,6 +1,6 @@
 import gzip
 import sys
-import time
+import re
 import csv
 import os
 import argparse
@@ -76,10 +76,11 @@ def parse_assays(repo_path):
             for file in entry[2]:
                 if "assay" in file:
                     found = True
+                    batch = re.sub(r".*/", "", entry[0])
                     assay_map = read_assay(f"{entry[0]}/{file}")
                     image_map.update(assay_map)
                     for ds in assay_map.keys():
-                        batch_map[ds] = entry[0]
+                        batch_map[ds] = batch
             if not found:
                 print(f"WARNING: No assays.txt for {entry[0]}!", file=sys.stderr)
     return (image_map, batch_map)
@@ -137,33 +138,30 @@ def check_annotations(dataset, check_images):
             problems[PROBLEM_NO_A].append(f"{dataset.getId()} | {dataset.getName()} / {image.getId()} | {image.getName()}")
 
 
-def check_images(dataset_name, expected_images, batch_map):
+def check_images(dataset_name, expected_images, batch):
     """
     Check that the dataset contains all expected images
     :param dataset_name: The dataset name
     :param expected_images: The list of expected image names
-    :param batch_map: Dictionary mapping dataset names to batch names
+    :param batch: The batch to which the dataset belongs
     :return: None
     """
     dataset = conn.getObject('Dataset', attributes={'name': dataset_name})
-
-    batch = "NA"
-    if dataset_name in batch_map:
-        batch = batch_map[dataset_name]
-
     if dataset is None:
         print(f"WARNING: Could not load dataset {dataset_name} ({batch})!", file=sys.stderr)
         if PROBLEM_NO_DATASET not in problems:
             problems[PROBLEM_NO_DATASET] = []
-        problems[PROBLEM_NO_DATASET].append(dataset_name)
+        problems[PROBLEM_NO_DATASET].append(f"{dataset_name} ({batch})")
         return
-    images= [img.getName() for img in get_image(dataset)]
+    imported_images = set()
+    for img in get_image(dataset):
+        imported_images.add(img.getName())
     for image in expected_images:
-        if image not in images:
+        if image not in imported_images:
             print(f"ERROR: Image {dataset_name} / {image} not imported! ({batch})", file=sys.stderr)
         if PROBLEM_NO_IMAGE not in problems:
             problems[PROBLEM_NO_IMAGE] = []
-        problems[PROBLEM_NO_IMAGE].append(f"{dataset_name} / {image}")
+        problems[PROBLEM_NO_IMAGE].append(f"{dataset_name} / {image} ({batch})")
 
 
 def main(conn, args):
@@ -183,7 +181,7 @@ def main(conn, args):
         for dataset, images in image_map.items():
             c += 1
             print(f"Checking imports {dataset} ({batch_map[dataset]}) ({c}/{len(image_map)} done)", file=sys.stderr)
-            check_images(dataset, images, batch_map)
+            check_images(dataset, images, batch_map[dataset])
 
     if len(problems) > 0:
         print("\nProblems detected:\n")

@@ -17,8 +17,11 @@ for file in $PREFIX*.tar; do
         cat md5sum.txt | grep " $file" | md5sum -c
     fi
     tar xvf ${file}
-    rm $file
-    for f in ${file%.*}/*.gz; do
-        gunzip $f
-    done
+    if [ $? -eq 0 ]
+    then
+        rm $file
+        for f in ${file%.*}/*.gz; do
+            gunzip $f
+        done
+    fi
 done
